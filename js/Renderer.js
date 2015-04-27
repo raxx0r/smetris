@@ -36,6 +36,12 @@ function Renderer(options) {
 				if(board[row][col] !== 0) {
 					renderSquare(col, row, board[row][col]);
 				}
+				else {
+					renderSquare(col, row, {
+						bg:'#ccc',
+						stroke: '#eee'
+					});
+				}
 			};
 		};
 	}
@@ -43,9 +49,12 @@ function Renderer(options) {
 	function renderMovingPiece(piece) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
-				var x = piece.shape[row][col] * square.width * (piece.x + col);
-				var y = piece.shape[row][col] * square.height * (piece.y + row);
-				fillSquare(x, y, piece.type);
+				var x = (piece.x + col);
+				var y = (piece.y + row);
+				if( piece.shape[row][col] == 1 ) {
+					renderSquare(x, y, {bg: colors[piece.type]});
+				}
+				
 			};
 		};
 	}
@@ -56,19 +65,22 @@ function Renderer(options) {
 	}
 
 	function renderSquare(i, j, color) {
-		//console.log(i,j)
 		fillSquare(square.width * i, square.height * j, color);
 	}
 
-	function fillSquare(x, y, colorIndex) {
-		if (colorIndex) {
-			color = colors[colorIndex];
-		}
-		else {
-			color = '#333';
-		}
-		context.fillStyle = color;
+	function fillSquare(x, y, color) {
+		var stroke = true;
+		var strokeColor = color.stroke || '#333';
+
+		context.fillStyle = color.bg;
 		context.fillRect(x*sizepadding, y*sizepadding, square.width, square.height);
+		
+		if(stroke) {
+			var strokeThickness = 1.5;
+			context.strokeStyle = strokeColor;
+			context.lineWidth = strokeThickness;
+			context.strokeRect(x + strokeThickness * 0.5, y + strokeThickness * 0.5, square.width - strokeThickness, square.height - strokeThickness);
+		}
 	}
 
 	function calculateSquareSize() {

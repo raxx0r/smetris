@@ -16,6 +16,16 @@ var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 // Game size: 10 x 20
 
 ljud 
+- när man roterar en bit
+- när man flyttar en bit i sidled
+- när man skjutsar ner en bit
 poäng
 config
 - tick interval
+
+blocka att man kan snurra biten hur snabbt som helst
+
+//generate random rotation on piece
+can go right
+can go left
+can rotate
