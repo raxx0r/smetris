@@ -1,14 +1,16 @@
 var board = Board();
+var piece = new Piece({type: 'T'});
+var piece2 = new Piece({type: 'T'});
 var colors = Colors();
 var transform = Transform();
-var collisionDetection = CollisionDetection({board: board});
-
+var collisionDetection = CollisionDetection({
+	board: board
+});
 
 var renderer = Renderer({board: board, colors: colors});
 var controls = Controls({collisionDetection:collisionDetection});
 controls.init();
 
-var piece = Piece({type: 'T'});
 
 setInterval(function() {
 	if(piece.y > board.height) {

@@ -1,28 +1,22 @@
 function Piece(options) {
-	var transform = Transform();
-	var type = options.type;
-	var x = 0;
-	var y = 0;	
-	var shape = Shapes[type].shape;
-	var pivotPoint = Shapes[type].pivotPoint;
-	
-	return {
-		x: x,
-		y: y,
-		type: type,
-		shape: shape,
-		rotate: rotate,
-		pivotPoint: pivotPoint
-	};
+	this.type = options.type;
+	this.x = options.x || 0;
+	this.y = options.y || 0;	
+	this.shape = Shapes[this.type].shape;
+	this.pivotPoint = Shapes[this.type].pivotPoint;
+}
 
-	function rotate() {
-		 transform.rotate({
-			x: x,
-			y: y,
-			type: type,
-			shape: shape,
-			rotate: rotate,
-			pivotPoint: pivotPoint			
-		});
-	}
+Piece.prototype.rotate = function() {
+	this.shape = transform.rotate(this);
+}
+
+Piece.prototype.logShape = function() {
+	var shapeString = "";
+	for (var row = 0; row < this.shape.length; row++) {
+		for (var col = 0; col < this.shape[row].length; col++) {
+			shapeString += this.shape[row][col];
+		};
+		shapeString += '\n';
+	};
+	console.log(shapeString);
 }

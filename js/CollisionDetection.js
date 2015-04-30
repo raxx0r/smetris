@@ -1,7 +1,6 @@
 function CollisionDetection(createOptions){
 	var board = createOptions.board;
 	return {
-		checkCollision: checkCollision,
 		canGoLeft: canGoLeft,
 		canGoRight: canGoRight,
 		canGoDown: canGoDown,
@@ -51,28 +50,21 @@ function CollisionDetection(createOptions){
 	}
 
 	function canRotate() {
-		var shape = transform.rotate(piece);
+		var copy = new Piece(piece);
+		copy.rotate();
+		var shape = copy.shape;
+
 		for (var row = 0; row < shape.length; row++) {
 			for (var col = 0; col < shape[row].length; col++) {
-				var x = (piece.x + col);
-				var y = (piece.y + row);
-				var hit = ( (board[y][x] !== 0) && (piece.shape[row][col] == 1) );
+				var x = (copy.x + col);
+				var y = (copy.y + row);
+				var hit = ( (board[y][x] !== 0) && (shape[row][col] !== 0) );
 				if(hit) {
 					return false;
 				}
 			};
 		};	
 		return true;	
-	}
-
-	function checkCollision() {
-		for (var row = 0; row < board.length; row++) {
-			for (var col = 0; col < board[row].length; col++) {
-				var hit = board[row][col] == 1 && piece.x == col && piece.y == row;
-				if(hit) return true;
-			};
-		};
-		return false;
 	}
 	
 }

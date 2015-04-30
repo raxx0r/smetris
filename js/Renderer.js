@@ -51,7 +51,7 @@ function Renderer(options) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = (piece.x + col);
 				var y = (piece.y + row);
-				if( piece.shape[row][col] == 1 ) {
+				if( piece.shape[row][col] !== 0 ) {
 					renderSquare(x, y, {bg: colors[piece.type]});
 				}
 				

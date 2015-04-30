@@ -30,9 +30,9 @@ function Controls(createOptions) {
 			}
 		}
 		else if (e.keyCode == keys.UP) {
-			//if (collisionDetection.canRotate()) {
+			if (collisionDetection.canRotate()) {
 				piece.rotate();
-			//}
+			 }
 		}
 	}
 
