@@ -1,14 +1,7 @@
+var keys = require('./keys.js');
 module.exports = function Controls(createOptions) {
 	var piece = createOptions.piece;
 	var collisionDetection = createOptions.collisionDetection;
-	var keys = {
-		SPACE: 32,
-		LEFT: 37,
-		RIGHT: 39,
-		UP: 38,
-		DOWN: 40,
-		SHIFT: 16
-	};
 
 	return {
 		init: init
