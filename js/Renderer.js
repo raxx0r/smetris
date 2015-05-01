@@ -1,7 +1,6 @@
-function Renderer(options) {
+module.exports = function Renderer(options) {
 	var board = options.board;
 	var colors = options.colors;
-
 	board.height = board.length;
 	board.width = board[0].length;
 	var context;

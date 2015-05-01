@@ -1,14 +1,13 @@
-function Transform() {
+var Transform = module.exports = {
+	rotate: rotate
+};
+
 	var tetromino;
-	return {
-		rotate: rotate
-	}
 
 	function rotate(myPiece) {
 		if(myPiece.type == 'O') return;
 
 		tetromino = myPiece;
-		console.log(tetromino)
 		var pivotPoint = tetromino.pivotPoint;
 
 		var points = convertShapeToPoints(tetromino.shape);
@@ -61,7 +60,8 @@ function Transform() {
 	}
 
 	function rotatePoints(points) {
-		var rot = [[0, 1], [-1, 0]]; // 90 deg Clockwise
+		//var rot = [[0, 1], [-1, 0]]; // 90 deg CounterClockwise
+		var rot = [[0, -1], [1, 0]]; // 90 deg Clockwise
 		var temp = {};
 
 		for (var i = 0; i < points.length; i++) {
@@ -94,4 +94,3 @@ function Transform() {
 		}
 		return newArray;
 	}
-}

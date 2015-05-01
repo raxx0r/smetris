@@ -1,9 +1,13 @@
-function Piece(options) {
+var Shapes = require('./Shapes.js');
+var transform = require('./transform.js');
+
+var Piece = module.exports = function Piece(options) {
 	this.type = options.type;
 	this.x = options.x || 0;
 	this.y = options.y || 0;	
 	this.shape = Shapes[this.type].shape;
 	this.pivotPoint = Shapes[this.type].pivotPoint;
+
 }
 
 Piece.prototype.rotate = function() {

@@ -1,4 +1,5 @@
-function Controls(createOptions) {
+module.exports = function Controls(createOptions) {
+	var piece = createOptions.piece;
 	var collisionDetection = createOptions.collisionDetection;
 	var keys = {
 		SPACE: 32,
@@ -20,20 +21,25 @@ function Controls(createOptions) {
 	function keyPressed(e) {
 
 		if (e.keyCode == keys.RIGHT) {
-			if (collisionDetection.canGoRight()) {
+			if (collisionDetection.canGoRight(piece)) {
 				goRight();
 			}
 		}
 		else if (e.keyCode == keys.LEFT) {
-			if (collisionDetection.canGoLeft()) {
+			if (collisionDetection.canGoLeft(piece)) {
 				goLeft();
 			}
 		}
 		else if (e.keyCode == keys.UP) {
-			if (collisionDetection.canRotate()) {
+			if (collisionDetection.canRotate(piece)) {
 				piece.rotate();
 			 }
 		}
+		else if(e.keyCode == keys.DOWN) {
+			if (collisionDetection.canGoDown(piece)) {
+				piece.y++;
+			}
+		} 
 	}
 
 	function goLeft() {

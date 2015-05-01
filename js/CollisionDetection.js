@@ -1,4 +1,7 @@
-function CollisionDetection(createOptions){
+var Piece = require('./Piece.js');
+var transform = require('./Transform.js');
+
+module.exports = function CollisionDetection(createOptions){
 	var board = createOptions.board;
 	return {
 		canGoLeft: canGoLeft,
@@ -7,12 +10,12 @@ function CollisionDetection(createOptions){
 		canRotate: canRotate
 	};
 
-	function canGoLeft() {
+	function canGoLeft(piece) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = piece.x + col - 1;
 				var y = piece.y + row;
-				var isInside = x * piece.shape[row][col] < board.width;
+				var isInside = x * piece.shape[row][col] >= 0;
 				var hitRestingPieces = ( (board[y][x] !== 0) && (piece.shape[row][col] == 1) );
 				if(hitRestingPieces || !isInside) return false;
 			};
@@ -21,7 +24,7 @@ function CollisionDetection(createOptions){
 	}
 
 
-	function canGoRight() {
+	function canGoRight(piece) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = piece.x + col + 1;
@@ -34,7 +37,7 @@ function CollisionDetection(createOptions){
 		return true;
 	}
 
-	function canGoDown() {
+	function canGoDown(piece) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = (piece.x + col);
@@ -49,7 +52,8 @@ function CollisionDetection(createOptions){
 		return true;
 	}
 
-	function canRotate() {
+	function canRotate(piece) {
+
 		var copy = new Piece(piece);
 		copy.rotate();
 		var shape = copy.shape;
@@ -58,8 +62,10 @@ function CollisionDetection(createOptions){
 			for (var col = 0; col < shape[row].length; col++) {
 				var x = (copy.x + col);
 				var y = (copy.y + row);
-				var hit = ( (board[y][x] !== 0) && (shape[row][col] !== 0) );
-				if(hit) {
+
+				var hitRestingPieces = ( (board[y][x] !== 0) && (shape[col][row] !== 0) );
+
+				if (hitRestingPieces) {
 					return false;
 				}
 			};

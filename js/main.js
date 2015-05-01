@@ -1,14 +1,23 @@
-var board = Board();
-var piece = new Piece({type: 'T'});
-var piece2 = new Piece({type: 'T'});
+var Board = require('./Board.js');
+var Piece = require('./Piece.js');
+var Colors = require('./Colors.js');
+var transform = require('./Transform.js');
+var CollisionDetection = require('./CollisionDetection.js');
+var Controls = require('./Controls.js');
+var Renderer = require('./Renderer.js');
+
 var colors = Colors();
-var transform = Transform();
+var board = Board();
+var piece = new Piece({type: 'L'});
 var collisionDetection = CollisionDetection({
 	board: board
 });
 
 var renderer = Renderer({board: board, colors: colors});
-var controls = Controls({collisionDetection:collisionDetection});
+var controls = Controls({
+	piece: piece,
+	collisionDetection:collisionDetection
+});
 controls.init();
 
 
@@ -16,9 +25,10 @@ setInterval(function() {
 	if(piece.y > board.height) {
 		piece = generateRandomPiece();
 	}
-	var canMoveDown = collisionDetection.canGoDown();
+
+	var canMoveDown = collisionDetection.canGoDown(piece);
 	if (canMoveDown) {
-		piece.y++;
+		//piece.y++;
 		//stichPieceToBoard;
 	}
 }, 500);

@@ -1,4 +1,4 @@
-var Shapes = {
+var Shapes = module.exports = {
 	'I': {},
 	'J': {
 		shape: [ [0, 0, 0], [1, 1, 1], [0, 0, 1] ],

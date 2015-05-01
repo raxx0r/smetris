@@ -1,0 +1,5 @@
+{
+	"scripts": {
+      "start": "watchify --debug js/main.js -o js/bundle.js"
+  }
+}
