@@ -2,6 +2,7 @@ var keys = require('./keys.js');
 module.exports = function Controls(createOptions) {
 	var piece = createOptions.piece;
 	var collisionDetection = createOptions.collisionDetection;
+	var check = createOptions.check;
 
 	return {
 		init: init
@@ -14,33 +15,25 @@ module.exports = function Controls(createOptions) {
 	function keyPressed(e) {
 
 		if (e.keyCode == keys.RIGHT) {
-			if (collisionDetection.canGoRight(piece)) {
-				goRight();
+			if (check(piece.clone().goRight())) {
+				piece.goRight();
 			}
 		}
 		else if (e.keyCode == keys.LEFT) {
-			if (collisionDetection.canGoLeft(piece)) {
-				goLeft();
+			if (check(piece.clone().goLeft())) {
+				piece.goLeft();
 			}
 		}
 		else if (e.keyCode == keys.UP) {
-			if (collisionDetection.canRotate(piece)) {
+			if (check(piece.clone().rotate())) {
 				piece.rotate();
 			 }
 		}
 		else if(e.keyCode == keys.DOWN) {
-			if (collisionDetection.canGoDown(piece)) {
-				piece.y++;
+			if (check(piece.clone().goDown())) {
+				piece.goDown()
 			}
 		} 
-	}
-
-	function goLeft() {
-		piece.x--;
-	}
-
-	function goRight() {
-		piece.x++;
 	}
 
 }

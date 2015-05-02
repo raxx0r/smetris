@@ -22,6 +22,7 @@ module.exports = function Renderer(options) {
 	function init() {
 		canvas = document.getElementById('game-canvas');
 		context = canvas.getContext('2d');
+		//context.scale(2,2);
 		calculateSquareSize();
 
 	}
@@ -39,7 +40,7 @@ module.exports = function Renderer(options) {
 				if(board[row][col] !== 0) {
 					var blockType = colorIndexes [ board[row][col] ];
 					var bg = colors[blockType];
-					var strokeColor = colorLuminance(bg, -0.1);
+					var strokeColor = colorLuminance(bg, -0.2);
 					var strokeThickness = 2.5;
 					renderSquare(col, row, {
 						bg: bg, 
@@ -58,7 +59,8 @@ module.exports = function Renderer(options) {
 					}
 					renderSquare(col, row, {
 						bg: bg,
-						stroke: false
+						//stroke:false
+						strokeThickness: 0.3,
 					});
 				}
 			};

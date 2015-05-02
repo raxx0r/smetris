@@ -4,80 +4,31 @@ var transform = require('./Transform.js');
 module.exports = function CollisionDetection(createOptions){
 	var board = createOptions.board;
 	return {
-		canGoLeft: canGoLeft,
-		canGoRight: canGoRight,
-		canGoDown: canGoDown,
-		canRotate: canRotate
+		check: check
 	};
 
-	function canGoLeft(piece) {
-		for (var row = 0; row < piece.shape.length; row++) {
-			for (var col = 0; col < piece.shape[row].length; col++) {
-				var x = piece.x + col - 1;
-				var y = piece.y + row;
-				var isInside = x * piece.shape[row][col] >= 0;
-				var hitRestingPieces = ( (board[y][x] !== 0) && (piece.shape[row][col] !== 0) );
-				if(hitRestingPieces || !isInside) return false;
-			};
-		};
-		return true;
-	}
-
-
-	function canGoRight(piece) {
-		for (var row = 0; row < piece.shape.length; row++) {
-			for (var col = 0; col < piece.shape[row].length; col++) {
-				var x = piece.x + col + 1;
-				var y = piece.y + row;
-				var isInside = x * piece.shape[row][col] < board.width;
-				var hitRestingPieces = ( (board[y][x] !== 0) && (piece.shape[row][col] !== 0) );
-				if(hitRestingPieces || !isInside) return false;
-			};
-		};
-		return true;
-	}
-
-	function canGoDown(piece) {
-		for (var row = 0; row < piece.shape.length; row++) {
-			for (var col = 0; col < piece.shape[row].length; col++) {
-				var x = (piece.x + col);
-				var y = (piece.y + 1 + row);
-
-				var hit = ( (board[y][x] !== 0) && (piece.shape[row][col] !== 0) );
-				if(hit) {
-					return false;
-				}
-			};
-		};
-		return true;
-	}
-
-	function canRotate(piece) {
-
-		var copy = new Piece(piece);
-		copy.rotate();
-		var shape = copy.shape;
-		logShape(shape);
-		logPartOfBoard(copy);
-
+	function check(piece) {
+		var shape = piece.shape;
 		for (var row = 0; row < shape.length; row++) {
 			for (var col = 0; col < shape[row].length; col++) {
-				 if (shape[row][col] !== 0) {
-					var x = (copy.x + col);
-					var y = (copy.y + row);
-				 	
-				 	var hitRestingPieces = (board[y][x] !== 0 );
-				 	console.log('hit', hitRestingPieces)
-					if (hitRestingPieces) {
+				if (shape[row][col] !== 0) {
+					var y = (piece.y + row);
+					var x = (piece.x + col);
+					if (y >= board.height) {
+						return false;
+	            	}
+					else if (board[y][x] !== 0 ) {
 						return false;
 					}
+				 	//check if out of bounds height
+				 	//check if outofbounds right, compensate
+				 	//check if outofbounds left, compensate
 				 }
-				//var hitRestingPieces = ( (board[y][x] !== 0) && (shape[col][row] !== 0) );
-
 			};
-		};	
-		return true;	
+		};
+		return true;		
 	}
+
 	function logShape(shape) {
 		var shapeString = "";
 		for (var row = 0; row < shape.length; row++) {
