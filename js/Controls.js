@@ -5,11 +5,16 @@ module.exports = function Controls(createOptions) {
 	var check = createOptions.check;
 
 	return {
-		init: init
+		init: init,
+		updatePiece: updatePiece
 	}
 
 	function init() {
 		$(document).on('keydown', keyPressed);
+	}
+
+	function updatePiece(newPiece) {
+		piece = newPiece;
 	}
 
 	function keyPressed(e) {

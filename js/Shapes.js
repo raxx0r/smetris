@@ -1,5 +1,8 @@
 var Shapes = module.exports = {
-	'I': {},
+	'I': {
+		shape: [ [0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0] ],
+		pivotPoint: {x: 1, y: 1}
+	},
 	'J': {
 		shape: [ [0, 0, 0], [1, 1, 1], [0, 0, 1] ],
 		pivotPoint: {x: 1, y: 1}

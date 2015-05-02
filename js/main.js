@@ -8,8 +8,8 @@ var Renderer = require('./Renderer.js');
 
 var colors = Colors();
 var board = Board();
-var piece = new Piece({type: 'L'});
-var blocks = ['J', 'L', 'O', 'S', 'T', 'Z'];
+var piece = new Piece({type: 'I'});
+var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 var collisionDetection = CollisionDetection({
 	board: board
 });
@@ -34,7 +34,7 @@ setInterval(function() {
 	else {
 		stitchPieceToBoard(piece);
 		piece = generateRandomPiece();
-		console.log(piece)
+		controls.updatePiece(piece);
 	}
 
 }, 500);
@@ -46,7 +46,6 @@ var renderToken = setInterval(function() {
 
 
 function generateRandomPiece () {
-
 	var random = Math.floor(Math.random() * blocks.length);
 	var p = new Piece({type: blocks[random]});
 	return p;
@@ -59,8 +58,7 @@ function stitchPieceToBoard(piece) {
 			if(shape[row][col] !== 0) {
 				var x = piece.x + col;
 				var y = piece.y + row;
-				var index = blocks.indexOf(piece.type);
-				console.log(index)
+				var index = blocks.indexOf(piece.type) + 1;
 					board[y][x] = index;
 			}
 		};

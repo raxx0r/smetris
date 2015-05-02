@@ -32,15 +32,28 @@ Piece.prototype.clone = function() {
 }
 
 Piece.prototype.rotate = function() {
-	this.shape = transform.rotate(this);
+	//this.shape = transform.rotate(this);
+	this.shape = rotation(this.shape);
 	return this;
 }
 
-Piece.prototype.logShape = function() {
+function rotation(shape) {
+	var n = [];
+	for (var row = 0; row < shape.length; row++) {
+		var p = [];
+		for (var col = 0; col < shape[row].length; col++) {
+			p.push(shape[shape.length - col - 1][row]);
+		};
+		n.push(p)
+	};
+	return n;
+}
+
+function logShape(shape) {
 	var shapeString = "";
-	for (var row = 0; row < this.shape.length; row++) {
-		for (var col = 0; col < this.shape[row].length; col++) {
-			shapeString += this.shape[row][col];
+	for (var row = 0; row < 	shape.length; row++) {
+		for (var col = 0; col < 	shape[row].length; col++) {
+			shapeString += 	shape[row][col];
 		};
 		shapeString += '\n';
 	};

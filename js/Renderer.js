@@ -4,7 +4,7 @@ var colorLuminance = require('./helpers.js').colorLuminance;
 module.exports = function Renderer(options) {
 	var board = options.board;
 	var colors = options.colors;
-	var colorIndexes = ['J', 'L', 'O', 'S', 'T', 'Z'];
+	var colorIndexes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 	board.height = board.length;
 	board.width = board[0].length;
 	var context;
@@ -38,7 +38,7 @@ module.exports = function Renderer(options) {
 		for (var row = 0; row < board.length; row++) {
 			for (var col = 0; col < board[row].length; col++) {
 				if(board[row][col] !== 0) {
-					var blockType = colorIndexes [ board[row][col] ];
+					var blockType = colorIndexes [ (board[row][col]-1) ];
 					var bg = colors[blockType];
 					var strokeColor = colorLuminance(bg, -0.2);
 					var strokeThickness = 2.5;

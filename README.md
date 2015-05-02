@@ -26,13 +26,12 @@ can rotate
 
 calculate ghostpiece position
 render ghost piece
+SPACE piece.drop() == ghostpiece position?
 
+Ta reda på varför det blir mörkare när en bit har lagt sig.
+Bryt ut transform koden till ett eget biblitek som inte används i detta projektet
+Hitta ett smart sätt att byta ut färger, ha en render config med alla färger.
 
-I shape
-varierar mellan andra och trejde kolumnen vid rotation
-går lågt i horizontellt läge
-
-Klockwise rotation!
 
 undersök varför det blir fuzzy i canvas, har med retina att göra? varför fixar rafael det ändå?
 
@@ -40,4 +39,4 @@ Tetris friends marathon färger
 bakgrundruta 0,0,0
 bakgrundsruta stroke (0.1, 0.1, 0.1)
 
-Fixa att Controls har en referens av piece fortfarande
+Klockwise rotation!
