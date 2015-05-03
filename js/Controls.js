@@ -1,8 +1,12 @@
 var keys = require('./keys.js');
+var Piece = require('./Piece.js')
 module.exports = function Controls(createOptions) {
 	var piece = createOptions.piece;
-	var collisionDetection = createOptions.collisionDetection;
 	var check = createOptions.check;
+	var stitchPieceToBoard = createOptions.stitchPieceToBoard;
+	var generateRandomPiece = createOptions.generateRandomPiece;
+	var generateAndAssignNewPiece = createOptions.generateAndAssignNewPiece;
+	var removeLines = createOptions.removeLines;
 
 	return {
 		init: init,
@@ -38,7 +42,17 @@ module.exports = function Controls(createOptions) {
 			if (check(piece.clone().goDown())) {
 				piece.goDown()
 			}
-		} 
+		}
+		else if(e.keyCode == keys.SPACE) {
+			var newPiece = piece.clone();
+			while(check(newPiece.clone().goDown())) {
+				newPiece.goDown();
+			}
+			stitchPieceToBoard(newPiece);
+			removeLines();
+			generateAndAssignNewPiece();
+
+		}
 	}
 
 }

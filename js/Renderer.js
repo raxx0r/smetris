@@ -27,26 +27,18 @@ module.exports = function Renderer(options) {
 
 	}
 
-	function render(piece) {
+	function render(piece, ghostPiece) {
 		clear();
 		renderBoard();
+		renderGhostPiece(ghostPiece);
 		renderMovingPiece(piece);
-		//πrenderGhostPiece(piece);
 	}
 
 	function renderBoard() {
 		for (var row = 0; row < board.length; row++) {
 			for (var col = 0; col < board[row].length; col++) {
 				if(board[row][col] !== 0) {
-					var blockType = colorIndexes [ (board[row][col]-1) ];
-					var bg = colors[blockType];
-					var strokeColor = colorLuminance(bg, -0.2);
-					var strokeThickness = 2.5;
-					renderSquare(col, row, {
-						bg: bg, 
-						strokeColor: strokeColor,
-						strokeThickness: strokeThickness
-					});
+					renderForegroundSquare(row, col);
 				}
 				else {
 					var bg = '#eee';
@@ -65,6 +57,18 @@ module.exports = function Renderer(options) {
 				}
 			};
 		};
+	}
+
+	function renderForegroundSquare(row, col) {
+		var blockType = colorIndexes [ (board[row][col]-1) ];
+		var bg = colors[blockType];
+		var strokeColor = colorLuminance(bg, -0.2);
+		var strokeThickness = 2.5;
+		renderSquare(col, row, {
+			bg: bg, 
+			strokeColor: strokeColor,
+			strokeThickness: strokeThickness
+		});
 	}
 
 	function renderMovingPiece(piece) {
@@ -86,8 +90,21 @@ module.exports = function Renderer(options) {
 	}
 
 	function renderGhostPiece(piece) {
-		context.rect(piece.x, canvas.height - square.height, square.width, square.height);
-		context.stroke();
+		for (var row = 0; row < piece.shape.length; row++) {
+			for (var col = 0; col < piece.shape[row].length; col++) {
+				var x = (piece.x + col);
+				var y = (piece.y + row);
+				var bg = colors[piece.type];
+				var strokeColor = colorLuminance(bg, -0.1);
+				if( piece.shape[row][col] !== 0 ) {
+					renderSquare(x, y, {
+						bg: 'rgba(100, 100, 100, 0.6)',
+						stroke: false
+					})
+				}
+				
+			};
+		};
 	}
 
 	function renderSquare(i, j, options) {

@@ -1,7 +1,6 @@
 var Board = require('./Board.js');
 var Piece = require('./Piece.js');
 var Colors = require('./Colors.js');
-var transform = require('./Transform.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
@@ -18,21 +17,23 @@ var check = collisionDetection.check;
 var renderer = Renderer({board: board, colors: colors});
 var controls = Controls({
 	piece: piece,
-	check:check
+	check:check,
+	stitchPieceToBoard:stitchPieceToBoard,
+	generateAndAssignNewPiece: generateAndAssignNewPiece,
+	removeLines: removeLines
 });
 controls.init();
 
 
 setInterval(function() {
-	//if(piece.y > board.height) {
-	//	piece = generateRandomPiece();
-	//}
 
 	if (check(piece.clone().goDown())) {
 		piece.goDown();
 	} 
 	else {
+		//wait for user no input and specified seconds
 		stitchPieceToBoard(piece);
+		removeLines();
 		piece = generateRandomPiece();
 		controls.updatePiece(piece);
 	}
@@ -41,7 +42,8 @@ setInterval(function() {
 
 
 var renderToken = setInterval(function() {
-	renderer.render(piece);
+	var ghostPiece = calculateGhostPiece();
+	renderer.render(piece, ghostPiece);
 }, 50);
 
 
@@ -65,3 +67,34 @@ function stitchPieceToBoard(piece) {
 	};
 }
 
+function removeLines() {
+	for (var row = 0; row < board.length; row++) {
+		var fullLine = (_.min(board[row]) !== 0);
+		if(fullLine) {
+			board.splice(row,1);
+			board.unshift(emptyRow());
+		}
+	};
+}
+
+function emptyRow() {
+	var row = [];
+	for (var i = 0; i < board.width; i++) {
+		row.push(0);
+	};
+	return row;
+}
+
+function calculateGhostPiece() {
+	var ghostPiece = piece.clone();
+	while(check(ghostPiece.clone().goDown())) {
+		ghostPiece.goDown();
+	}
+	return ghostPiece;
+}
+
+
+function generateAndAssignNewPiece (){
+	piece = generateRandomPiece();
+	controls.updatePiece(piece);
+}

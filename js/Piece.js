@@ -1,5 +1,4 @@
 var Shapes = require('./Shapes.js');
-var transform = require('./transform.js');
 
 function Piece(options) {
 	this.type = options.type;
@@ -32,7 +31,6 @@ Piece.prototype.clone = function() {
 }
 
 Piece.prototype.rotate = function() {
-	//this.shape = transform.rotate(this);
 	this.shape = rotation(this.shape);
 	return this;
 }

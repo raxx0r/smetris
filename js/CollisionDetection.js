@@ -1,5 +1,4 @@
 var Piece = require('./Piece.js');
-var transform = require('./Transform.js');
 
 module.exports = function CollisionDetection(createOptions){
 	var board = createOptions.board;
