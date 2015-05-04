@@ -5,10 +5,10 @@ var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
 
+var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 var colors = Colors();
 var board = Board();
-var piece = new Piece({type: 'I'});
-var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+var piece = generateRandomPiece();
 var collisionDetection = CollisionDetection({
 	board: board
 });
@@ -49,7 +49,11 @@ var renderToken = setInterval(function() {
 
 function generateRandomPiece () {
 	var random = Math.floor(Math.random() * blocks.length);
-	var p = new Piece({type: blocks[random]});
+	var p = new Piece({
+		type: blocks[random],
+		x: 3
+		y: 0 
+	});
 	return p;
 }
 

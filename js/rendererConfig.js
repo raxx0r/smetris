@@ -3,10 +3,11 @@ module.exports = {
 		bg: 
 		color:
 		stroke:
-		strokeColor:
+		strokeColor: colorluminance()
 		strokeThickness:
 	}
-	background: {
-		bg: 
+	ghostPiece: {
+		bg: 'rgba(100, 100, 100, 0.6)',
+		stroke: false
 	}
 }

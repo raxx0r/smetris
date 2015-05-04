@@ -10,7 +10,6 @@ module.exports = function Renderer(options) {
 	var context;
 	var canvas;
 	var size;
-	var sizepadding = 1;
 	square = {};
 	init();
 	return {
@@ -57,6 +56,17 @@ module.exports = function Renderer(options) {
 				}
 			};
 		};
+	}
+
+	function checkered(row, col) {
+		var bg = '#eee';
+		var bg2 = '#fff';
+		if( (row+col) % 2 == 0 ){
+			bg = bg2;
+		}
+		else{
+			bg = bg;
+		}
 	}
 
 	function renderForegroundSquare(row, col) {
@@ -117,7 +127,7 @@ module.exports = function Renderer(options) {
 		var strokeThickness = options.strokeThickness || 2.5;
 
 		context.fillStyle = options.bg;
-		context.fillRect(x*sizepadding, y*sizepadding, square.width, square.height);
+		context.fillRect(x, y, square.width, square.height);
 		
 		if(stroke) {
 			context.strokeStyle = strokeColor;

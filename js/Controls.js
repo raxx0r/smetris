@@ -28,22 +28,22 @@ module.exports = function Controls(createOptions) {
 				piece.goRight();
 			}
 		}
-		else if (e.keyCode == keys.LEFT) {
+		if (e.keyCode == keys.LEFT) {
 			if (check(piece.clone().goLeft())) {
 				piece.goLeft();
 			}
 		}
-		else if (e.keyCode == keys.UP) {
+		if (e.keyCode == keys.UP) {
 			if (check(piece.clone().rotate())) {
 				piece.rotate();
 			 }
 		}
-		else if(e.keyCode == keys.DOWN) {
+		if(e.keyCode == keys.DOWN) {
 			if (check(piece.clone().goDown())) {
 				piece.goDown()
 			}
 		}
-		else if(e.keyCode == keys.SPACE) {
+		if(e.keyCode == keys.SPACE) {
 			var newPiece = piece.clone();
 			while(check(newPiece.clone().goDown())) {
 				newPiece.goDown();
