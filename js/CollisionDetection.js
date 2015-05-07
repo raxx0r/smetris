@@ -19,37 +19,10 @@ module.exports = function CollisionDetection(createOptions){
 					else if (board[y][x] !== 0 ) {
 						return false;
 					}
-				 	//check if out of bounds height
-				 	//check if outofbounds right, compensate
-				 	//check if outofbounds left, compensate
 				 }
 			};
 		};
 		return true;		
-	}
-
-	function logShape(shape) {
-		var shapeString = "";
-		for (var row = 0; row < shape.length; row++) {
-			for (var col = 0; col < shape[row].length; col++) {
-				shapeString += shape[row][col];
-			};
-			shapeString += '\n';
-		};
-		console.log(shapeString);
-	}
-
-	function logPartOfBoard(copy) {
-		var boardString = "";
-		for (var row = 0; row < 3; row++) {
-			for (var col = 0; col < 3; col++) {
-				var x = (copy.x + col);
-				var y = (copy.y + row);
-				boardString += board[y][x];
-			};
-			boardString += '\n';
-		};
-		console.log(boardString);
 	}
 
 }

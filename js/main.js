@@ -18,12 +18,16 @@ var renderer = Renderer({board: board, colors: colors});
 var controls = Controls({
 	piece: piece,
 	check:check,
+	board: board,
 	stitchPieceToBoard:stitchPieceToBoard,
 	generateAndAssignNewPiece: generateAndAssignNewPiece,
 	removeLines: removeLines
 });
 controls.init();
 
+var points = [40, 100, 300, 1200];
+var score = 0;
+$('#score').val(score);
 
 setInterval(function() {
 
@@ -51,7 +55,7 @@ function generateRandomPiece () {
 	var random = Math.floor(Math.random() * blocks.length);
 	var p = new Piece({
 		type: blocks[random],
-		x: 3
+		x: 3,
 		y: 0 
 	});
 	return p;
@@ -72,13 +76,20 @@ function stitchPieceToBoard(piece) {
 }
 
 function removeLines() {
+	var fullLines = 0;
 	for (var row = 0; row < board.length; row++) {
 		var fullLine = (_.min(board[row]) !== 0);
 		if(fullLine) {
+			fullLines++;
 			board.splice(row,1);
 			board.unshift(emptyRow());
 		}
 	};
+	 if(fullLines > 0){
+	 	console.log(fullLines);
+	 	score += points[--fullLines];
+	 }
+	 $('#score').html(score);
 }
 
 function emptyRow() {

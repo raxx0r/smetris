@@ -1,11 +1,7 @@
 
-// Game size: 10 x 20 alternativt 10 x 16
+Implementera att spelet tar slut
 
-ljud 
-- när man roterar en bit
-- när man flyttar en bit i sidled
-- när man skjutsar ner en bit
-poäng
+
 config
 - tick interval
 
@@ -28,6 +24,17 @@ bakgrundruta 0,0,0
 bakgrundsruta stroke (0.1, 0.1, 0.1)
 Klockwise rotation!
 
-Undersök varför den nya biten ibland börjar på andra raden och inte första
+Undersök varför den nya biten ibland börjar på andra raden och inte första. Pga. Tick intervalet
 
+
+Future Improvements:
+Ljud
+- när man roterar en bit
+- när man flyttar en bit i sidled
+- när man droppar ner en bit
 SHIFT for hold a piece.
+Show upcoming pieces, 1 or more?
+Remove floating pieces
+
+TECH Improvements
+Rendrera bara när något ändras.

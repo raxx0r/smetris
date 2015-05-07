@@ -1,3 +1,10 @@
 #game-canvas {
 	border: 1px solid #ddd;
 }
+
+.container {
+	width: 600px;
+	margin: 0 auto;
+	text-align: center;
+	font-family: arial, sans-serif;
+}
