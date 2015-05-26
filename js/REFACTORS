@@ -1,0 +1,50 @@
+game logic
+-stitch to board
+-remove lines
+-calculate ghost piece
+
+render logic
+-render background
+-render ghost piece
+
+piece logic
+
+controls logic
+Xemitta events när en viss knapp är tryckt på
+XRendrera bara om när det verkligen behövs
+
+
+isTaken / isOccupied / isBlocked / isFilled / isAllocated / isUnavailable
+motsatser: isAvailable / isFree / freeSpace / 
+function isOccupied(row, col) {
+	board[row][col] !== 0;
+}
+
+
+block / square 
+
+fill
+
+render / draw
+
+piece / tetrimino 
+
+Logic
+=====
+
+Redraw on:
+- certain user input (rotation/left/right/drop)
+- tick
+- landed (attachToBoard)
+
+
+game loop
+=========
+
+while not no piece cant enter board (definition på det, betyder dela hela/halva piecen, ska man kunna röra piecen)
+and
+
+Renames and Refactors
+=====================
+
+stitch -> attach (stitchPieceToBoard)

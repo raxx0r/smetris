@@ -24,5 +24,4 @@ module.exports = function CollisionDetection(createOptions){
 		};
 		return true;		
 	}
-
 }

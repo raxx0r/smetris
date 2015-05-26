@@ -1,5 +1,3 @@
-
-
 function colorLuminance(hex, lum) {
 
 	// validate hex string
@@ -19,7 +17,6 @@ function colorLuminance(hex, lum) {
 
 	return rgb;
 }
-
 
 module.exports = {
 	colorLuminance: colorLuminance

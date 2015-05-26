@@ -1,86 +1,52 @@
 var keys = require('./keys.js');
 var Piece = require('./Piece.js')
+
+var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
+
 module.exports = function Controls(createOptions) {
-	var board = createOptions.board;
-	var piece = createOptions.piece;
-	var check = createOptions.check;
-	var stitchPieceToBoard = createOptions.stitchPieceToBoard;
-	var generateRandomPiece = createOptions.generateRandomPiece;
-	var generateAndAssignNewPiece = createOptions.generateAndAssignNewPiece;
-	var removeLines = createOptions.removeLines;
+
+	var listeners;
 
 	return {
 		init: init,
-		updatePiece: updatePiece
+		updatePiece: updatePiece,
+		on: addListener,
+		off: removeListener
 	}
 
 	function init() {
 		$(document).on('keydown', keyPressed);
+
+		listeners = {};
+		VALID_EVENTS.forEach(function(event) {
+			listeners[event] = [];
+		})
 	}
 
 	function updatePiece(newPiece) {
 		piece = newPiece;
 	}
 
+	function addListener(event, callback) {
+		listeners[event].push(callback);
+	}
+
+	function removeListener(event, callback) {
+		var index = listeners[event].indexOf(callback);
+		listeners[event].splice(index,1);
+	}
+
+	function emit(event) {
+		listeners[event].forEach(function(callback) {
+			callback();
+		})
+	}
+	
 	function keyPressed(e) {
-
-		if (e.keyCode == keys.RIGHT) {
-			if (check(piece.clone().goRight())) {
-				piece.goRight();
-			}
-		}
-		if (e.keyCode == keys.LEFT) {
-			if (check(piece.clone().goLeft())) {
-				piece.goLeft();
-			}
-		}
-		if (e.keyCode == keys.UP)  {
-			wallKick(piece.rotate());
-		}
-		if(e.keyCode == keys.DOWN) {
-			if (check(piece.clone().goDown())) {
-				piece.goDown()
-			}
-		}
-		if(e.keyCode == keys.SPACE) {
-			var newPiece = piece.clone();
-			while(check(newPiece.clone().goDown())) {
-				newPiece.goDown();
-			}
-			stitchPieceToBoard(newPiece);
-			removeLines();
-			generateAndAssignNewPiece();
-
-		}
+		if (e.keyCode === keys.RIGHT) emit('right');
+		if (e.keyCode === keys.LEFT) emit('left');
+		if (e.keyCode === keys.UP)  emit('rotate');
+		if(e.keyCode === keys.DOWN) emit('down');
+		if(e.keyCode === keys.SPACE) emit('drop');
 	}
-
-	function wallKick(piece) {
-		var shape = piece.shape;
-		var xs =[];
-		var ys =[];
-		for (var row = 0; row < shape.length; row++) {
-			for (var col = 0; col < shape[row].length; col++) {
-				if(shape[row][col] !== 0) {
-					xs.push(piece.x + col);
-					ys.push(piece.y + row);
-				}
-			};
-		};
-
-		if(_.min(xs) < 0) {
-			piece.x -= _.min(xs);
-		}
-		if(_.max(xs) > (board.width-1)) {
-			var diff = (_.max(xs) +1 - board.width);
-			piece.x -= diff;
-		}
-		if(_.max(ys)> (board.height-1)) {
-			var diff = (_.max(ys) +1 - board.height);
-			piece.y -= diff;			
-		}
-
-		return piece;
-
-	}
-
 }

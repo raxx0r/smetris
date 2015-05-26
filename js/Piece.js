@@ -5,9 +5,6 @@ function Piece(options) {
 	this.x = options.x || 0;
 	this.y = options.y || 0;	
 	this.shape = options.shape || Shapes[this.type].shape;
-	this.pivotPoint = Shapes[this.type].pivotPoint;
-
-	return;
 }
 
 Piece.prototype.goRight = function() {
@@ -19,7 +16,6 @@ Piece.prototype.goLeft = function() {
 	this.x--;
 	return this;
 }
-
 
 Piece.prototype.goDown = function() {
 	this.y++;
@@ -49,8 +45,8 @@ function rotation(shape) {
 
 function logShape(shape) {
 	var shapeString = "";
-	for (var row = 0; row < 	shape.length; row++) {
-		for (var col = 0; col < 	shape[row].length; col++) {
+	for (var row = 0; row < shape.length; row++) {
+		for (var col = 0; col < shape[row].length; col++) {
 			shapeString += 	shape[row][col];
 		};
 		shapeString += '\n';

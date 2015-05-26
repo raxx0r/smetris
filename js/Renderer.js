@@ -1,9 +1,8 @@
 var colorLuminance = require('./helpers.js').colorLuminance;
-
+var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
 	var board = options.board;
-	var colors = options.colors;
 	var colorIndexes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 	board.height = board.length;
 	board.width = board[0].length;
@@ -23,94 +22,51 @@ module.exports = function Renderer(options) {
 		context = canvas.getContext('2d');
 		//context.scale(2,2);
 		calculateSquareSize();
-
 	}
 
 	function render(piece, ghostPiece) {
-		clear();
-		renderBoard();
-		renderGhostPiece(ghostPiece);
-		renderMovingPiece(piece);
+		//clear();
+		renderBoard(config);
+		renderPiece(ghostPiece, config.ghostPiece);
+		renderPiece(piece, config.piece);
 	}
 
-	function renderBoard() {
+	function renderBoard(config) {
 		for (var row = 0; row < board.length; row++) {
 			for (var col = 0; col < board[row].length; col++) {
 				if(board[row][col] !== 0) {
-					renderForegroundSquare(row, col);
+					var blockType = colorIndexes [ (board[row][col]-1) ];
+					var bg = config.piece.colors[blockType];
+					config.piece.background = bg;
+					renderSquare(col, row, config.piece);
 				}
 				else {
-					var bg = '#eee';
-					var bg2 = '#fff';
-					if( (row+col) % 2 == 0 ){
-						bg = bg2;
+					var bg;
+					if (config.board.checkered) {
+						bg = even(row + col) ? config.board.checked.color1 : config.board.checked.color2;
 					}
-					else{
-						bg = bg;
+					else {
+						bg = config.board.background;
 					}
-					renderSquare(col, row, {
-						bg: bg,
-						//stroke:false
-						strokeThickness: 0.3,
-					});
+					config.board.background = bg;
+					renderSquare(col, row, config.board);
 				}
 			};
 		};
 	}
 
-	function checkered(row, col) {
-		var bg = '#eee';
-		var bg2 = '#fff';
-		if( (row+col) % 2 == 0 ){
-			bg = bg2;
-		}
-		else{
-			bg = bg;
-		}
-	}
-
-	function renderForegroundSquare(row, col) {
-		var blockType = colorIndexes [ (board[row][col]-1) ];
-		var bg = colors[blockType];
-		var strokeColor = colorLuminance(bg, -0.2);
-		var strokeThickness = 2.5;
-		renderSquare(col, row, {
-			bg: bg, 
-			strokeColor: strokeColor,
-			strokeThickness: strokeThickness
-		});
-	}
-
-	function renderMovingPiece(piece) {
+	function renderPiece(piece, config) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = (piece.x + col);
 				var y = (piece.y + row);
-				var bg = colors[piece.type];
-				var strokeColor = colorLuminance(bg, -0.1);
-				if( piece.shape[row][col] !== 0 ) {
-					renderSquare(x, y, {
-						bg: bg,
-						strokeColor: strokeColor
-					});
-				}
-				
-			};
-		};
-	}
 
-	function renderGhostPiece(piece) {
-		for (var row = 0; row < piece.shape.length; row++) {
-			for (var col = 0; col < piece.shape[row].length; col++) {
-				var x = (piece.x + col);
-				var y = (piece.y + row);
-				var bg = colors[piece.type];
-				var strokeColor = colorLuminance(bg, -0.1);
 				if( piece.shape[row][col] !== 0 ) {
-					renderSquare(x, y, {
-						bg: 'rgba(100, 100, 100, 0.6)',
-						stroke: false
-					})
+					if(config.movingPiece) {
+						var bg = config.colors[piece.type];
+						config.background = bg;
+					}
+					renderSquare(x, y, config);
 				}
 				
 			};
@@ -122,17 +78,22 @@ module.exports = function Renderer(options) {
 	}
 
 	function fillSquare(x, y, options) {
-		var stroke = ((options.stroke !== undefined) ? options.stroke : true);
-		var strokeColor = options.strokeColor || '#ccc';
-		var strokeThickness = options.strokeThickness || 2.5;
-
-		context.fillStyle = options.bg;
+		var color = options.bg || options.background;
+		context.fillStyle = color;
 		context.fillRect(x, y, square.width, square.height);
 		
+		var stroke = ((options.stroke !== undefined) ? options.stroke : true);
 		if(stroke) {
+			var strokeColor = colorLuminance(color, -0.1);
+			var strokeThickness = options.strokeThickness || 2.5;
+			//drawStroke(x, y, {strokeColor, strokeThickness})
 			context.strokeStyle = strokeColor;
 			context.lineWidth = strokeThickness;
-			context.strokeRect(x + strokeThickness * 0.5, y + strokeThickness * 0.5, square.width - strokeThickness, square.height - strokeThickness);
+			var x = x + strokeThickness * 0.5;
+			var y = y + strokeThickness * 0.5;
+			var width = square.width - strokeThickness;
+			var height = square.height - strokeThickness;
+			context.strokeRect(x, y, width, height);
 		}
 	}
 
@@ -144,5 +105,9 @@ module.exports = function Renderer(options) {
 	function clear() {
 		context.beginPath();
 		context.clearRect ( 0 , 0 , canvas.width, canvas.height );
+	}
+
+	function even(number) {
+		return ( number % 2 == 0 );
 	}
 }

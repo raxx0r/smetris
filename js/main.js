@@ -1,12 +1,11 @@
 var Board = require('./Board.js');
 var Piece = require('./Piece.js');
-var Colors = require('./Colors.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
 
 var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
-var colors = Colors();
+
 var board = Board();
 var piece = generateRandomPiece();
 var collisionDetection = CollisionDetection({
@@ -14,42 +13,63 @@ var collisionDetection = CollisionDetection({
 });
 var check = collisionDetection.check;
 
-var renderer = Renderer({board: board, colors: colors});
-var controls = Controls({
-	piece: piece,
-	check:check,
-	board: board,
-	stitchPieceToBoard:stitchPieceToBoard,
-	generateAndAssignNewPiece: generateAndAssignNewPiece,
-	removeLines: removeLines
-});
+var renderer = Renderer({board: board});
+var controls = Controls();
 controls.init();
+
+controls.on('right', function() {
+	if (check(piece.clone().goRight())) {
+		piece.goRight();
+		renderer.render(piece, calculateGhostPiece());	
+	}
+})			
+controls.on('left', function() {
+	if (check(piece.clone().goLeft())) {
+		piece.goLeft();
+		renderer.render(piece, calculateGhostPiece());	
+	}
+});
+controls.on('rotate', function() {
+	wallKick(piece.rotate());
+	renderer.render(piece, calculateGhostPiece());	
+});
+controls.on('down', function() {
+	if (check(piece.clone().goDown())) {
+		piece.goDown();
+	}
+});
+controls.on('drop', function() {
+	var newPiece = piece.clone();
+	while(check(newPiece.clone().goDown())) {
+		newPiece.goDown();
+	}
+	attachPieceToBoard(newPiece);
+	removeLines();
+	generateAndAssignNewPiece();
+	renderer.render(piece, calculateGhostPiece());	
+});
+
 
 var points = [40, 100, 300, 1200];
 var score = 0;
 $('#score').val(score);
 
+renderer.render(piece, calculateGhostPiece());
 setInterval(function() {
+	renderer.render(piece, calculateGhostPiece());
 
 	if (check(piece.clone().goDown())) {
 		piece.goDown();
 	} 
 	else {
 		//wait for user no input and specified seconds
-		stitchPieceToBoard(piece);
+		attachPieceToBoard(piece);
 		removeLines();
 		piece = generateRandomPiece();
 		controls.updatePiece(piece);
 	}
 
 }, 500);
-
-
-var renderToken = setInterval(function() {
-	var ghostPiece = calculateGhostPiece();
-	renderer.render(piece, ghostPiece);
-}, 50);
-
 
 function generateRandomPiece () {
 	var random = Math.floor(Math.random() * blocks.length);
@@ -61,7 +81,7 @@ function generateRandomPiece () {
 	return p;
 }
 
-function stitchPieceToBoard(piece) {
+function attachPieceToBoard(piece) {
 	var shape = piece.shape;
 	for (var row = 0; row < shape.length; row++) {
 		for (var col = 0; col < shape[row].length; col++) {
@@ -74,6 +94,38 @@ function stitchPieceToBoard(piece) {
 		};
 	};
 }
+
+function wallKick(piece) {
+	var shape = piece.shape;
+	var xs =[];
+	var ys =[];
+	for (var row = 0; row < shape.length; row++) {
+		for (var col = 0; col < shape[row].length; col++) {
+			if(shape[row][col] !== 0) {
+				xs.push(piece.x + col);
+				ys.push(piece.y + row);
+			}
+		};
+	};
+
+	var outsideLeft = _.min(xs) < 0;
+	if(outsideLeft) {
+		piece.x -= _.min(xs);
+	}
+	var outsideRight = _.max(xs) > (board.width-1);
+	if(outsideRight) {
+		var diff = (_.max(xs) +1 - board.width);
+		piece.x -= diff;
+	}
+	var outsideBottom = _.max(ys) > (board.height-1);
+	if(outsideBottom) {
+		var diff = (_.max(ys) +1 - board.height);
+		piece.y -= diff;			
+	}
+
+	return piece;
+}
+
 
 function removeLines() {
 	var fullLines = 0;
