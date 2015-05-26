@@ -9,7 +9,6 @@ module.exports = function Controls(createOptions) {
 
 	return {
 		init: init,
-		updatePiece: updatePiece,
 		on: addListener,
 		off: removeListener
 	}
@@ -21,10 +20,6 @@ module.exports = function Controls(createOptions) {
 		VALID_EVENTS.forEach(function(event) {
 			listeners[event] = [];
 		})
-	}
-
-	function updatePiece(newPiece) {
-		piece = newPiece;
 	}
 
 	function addListener(event, callback) {
@@ -48,5 +43,6 @@ module.exports = function Controls(createOptions) {
 		if (e.keyCode === keys.UP)  emit('rotate');
 		if(e.keyCode === keys.DOWN) emit('down');
 		if(e.keyCode === keys.SPACE) emit('drop');
+		if(e.keyCode === keys.SHIFT) emit('hold');
 	}
 }

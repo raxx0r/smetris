@@ -36,6 +36,7 @@ controls.on('rotate', function() {
 controls.on('down', function() {
 	if (check(piece.clone().goDown())) {
 		piece.goDown();
+		renderer.render(piece, calculateGhostPiece());	
 	}
 });
 controls.on('drop', function() {
@@ -45,7 +46,7 @@ controls.on('drop', function() {
 	}
 	attachPieceToBoard(newPiece);
 	removeLines();
-	generateAndAssignNewPiece();
+	piece = generateRandomPiece();
 	renderer.render(piece, calculateGhostPiece());	
 });
 
@@ -66,7 +67,6 @@ setInterval(function() {
 		attachPieceToBoard(piece);
 		removeLines();
 		piece = generateRandomPiece();
-		controls.updatePiece(piece);
 	}
 
 }, 500);
@@ -138,8 +138,7 @@ function removeLines() {
 		}
 	};
 	 if(fullLines > 0){
-	 	console.log(fullLines);
-	 	score += points[--fullLines];
+	 	score += points[fullLines-1];
 	 }
 	 $('#score').html(score);
 }
@@ -158,10 +157,4 @@ function calculateGhostPiece() {
 		ghostPiece.goDown();
 	}
 	return ghostPiece;
-}
-
-
-function generateAndAssignNewPiece (){
-	piece = generateRandomPiece();
-	controls.updatePiece(piece);
 }
