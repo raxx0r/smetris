@@ -13,12 +13,12 @@ module.exports = function CollisionDetection(createOptions){
 				if (shape[row][col] !== 0) {
 					var y = (piece.y + row);
 					var x = (piece.x + col);
-					if (y >= board.height) {
-						return false;
-	            	}
-					else if (board[y][x] !== 0 ) {
-						return false;
-					}
+				
+					var isBelowBottom = y >= board.height;
+					if (isBelowBottom) return false;
+	           
+					var isSpaceTaken = board[y][x] !== 0;
+					if (isSpaceTaken) return false;
 				 }
 			};
 		};

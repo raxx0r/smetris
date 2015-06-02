@@ -4,18 +4,18 @@ var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
 
-var blocks = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+var pieceTypes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 
 var board = Board();
-var piece = generateRandomPiece();
 var collisionDetection = CollisionDetection({
 	board: board
 });
 var check = collisionDetection.check;
-
 var renderer = Renderer({board: board});
 var controls = Controls();
 controls.init();
+
+var piece = generateRandomPiece();
 
 controls.on('right', function() {
 	if (check(piece.clone().goRight())) {
@@ -72,9 +72,9 @@ setInterval(function() {
 }, 500);
 
 function generateRandomPiece () {
-	var random = Math.floor(Math.random() * blocks.length);
+	var random = Math.floor(Math.random() * pieceTypes.length);
 	var p = new Piece({
-		type: blocks[random],
+		type: pieceTypes[random],
 		x: 3,
 		y: 0 
 	});
@@ -88,7 +88,7 @@ function attachPieceToBoard(piece) {
 			if(shape[row][col] !== 0) {
 				var x = piece.x + col;
 				var y = piece.y + row;
-				var index = blocks.indexOf(piece.type) + 1;
+				var index = pieceTypes.indexOf(piece.type) + 1;
 					board[y][x] = index;
 			}
 		};

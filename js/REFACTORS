@@ -31,20 +31,19 @@ piece / tetrimino
 
 Logic
 =====
-
-Redraw on:
-- certain user input (rotation/left/right/drop)
-- tick
-- landed (attachToBoard)
-
+Renderer ändrar på config inparameter, inte bra, borde skapa ett nytt object eller något
 
 game loop
 =========
 
-while not no piece cant enter board (definition på det, betyder dela hela/halva piecen, ska man kunna röra piecen)
+while not no piece cant enter board (definition på det, betyder det hela/halva piecen, ska man kunna röra piecen)
 and
 
 Renames and Refactors
 =====================
 
 stitch -> attach (stitchPieceToBoard)
+check -> can / canPiece
+removeLines -> removeFullLines
+
+

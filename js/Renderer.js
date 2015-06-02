@@ -3,9 +3,7 @@ var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
 	var board = options.board;
-	var colorIndexes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
-	board.height = board.length;
-	board.width = board[0].length;
+	var pieceTypes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 	var context;
 	var canvas;
 	var size;
@@ -35,8 +33,8 @@ module.exports = function Renderer(options) {
 		for (var row = 0; row < board.length; row++) {
 			for (var col = 0; col < board[row].length; col++) {
 				if(board[row][col] !== 0) {
-					var blockType = colorIndexes [ (board[row][col]-1) ];
-					var bg = config.piece.colors[blockType];
+					var pieceType = pieceTypes [ (board[row][col]-1) ];
+					var bg = config.piece.colors[pieceType];
 					config.piece.background = bg;
 					renderSquare(col, row, config.piece);
 				}
