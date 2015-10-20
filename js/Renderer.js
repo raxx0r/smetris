@@ -3,7 +3,7 @@ var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
 	var board = options.board;
-	var pieceTypes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+	var pieceTypes = require('./PieceTypesArray.js');
 	var context;
 	var canvas;
 	var size;

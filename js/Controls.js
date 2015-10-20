@@ -1,10 +1,11 @@
 var keys = require('./keys.js');
-var Piece = require('./Piece.js')
-
+var Piece = require('./Piece.js');
+var $ = require('jquery');
 var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
 
 module.exports = function Controls(createOptions) {
-
+	var createOptions = createOptions || {};
+	var selector = createOptions.selector || document;
 	var listeners;
 
 	return {
@@ -14,8 +15,9 @@ module.exports = function Controls(createOptions) {
 	}
 
 	function init() {
-		$(document).on('keydown', keyPressed);
-
+		$(document).ready(function(){
+			$(selector).on('keydown', keyPressed);
+		});
 		listeners = {};
 		VALID_EVENTS.forEach(function(event) {
 			listeners[event] = [];
@@ -28,7 +30,7 @@ module.exports = function Controls(createOptions) {
 
 	function removeListener(event, callback) {
 		var index = listeners[event].indexOf(callback);
-		listeners[event].splice(index,1);
+		listeners[event].splice(index, 1);
 	}
 
 	function emit(event) {
@@ -41,8 +43,8 @@ module.exports = function Controls(createOptions) {
 		if (e.keyCode === keys.RIGHT) emit('right');
 		if (e.keyCode === keys.LEFT) emit('left');
 		if (e.keyCode === keys.UP)  emit('rotate');
-		if(e.keyCode === keys.DOWN) emit('down');
-		if(e.keyCode === keys.SPACE) emit('drop');
-		if(e.keyCode === keys.SHIFT) emit('hold');
+		if (e.keyCode === keys.DOWN) emit('down');
+		if (e.keyCode === keys.SPACE) emit('drop');
+		if (e.keyCode === keys.SHIFT) emit('hold');
 	}
 }

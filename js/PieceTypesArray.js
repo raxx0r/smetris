@@ -1,0 +1,1 @@
+module.exports = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];

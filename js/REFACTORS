@@ -41,9 +41,11 @@ and
 
 Renames and Refactors
 =====================
+Renderer har olika koordinater, dels canvas koordinater, och dels board/game/square och även piece coordinater dessa borde skilja på
 
 stitch -> attach (stitchPieceToBoard)
 check -> can / canPiece
 removeLines -> removeFullLines
+renderSquare(x, y, config) -> renderSquare(position, config); //position = {x, y};
 
 

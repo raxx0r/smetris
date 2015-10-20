@@ -4,7 +4,7 @@ var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
 
-var pieceTypes = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+var pieceTypes = require('./PieceTypesArray.js');
 
 var board = Board();
 var collisionDetection = CollisionDetection({
@@ -151,7 +151,7 @@ function emptyRow() {
 	return row;
 }
 
-function calculateGhostPiece() {
+function calculateGhostPiece() { //calculateGhostPiecePositon??
 	var ghostPiece = piece.clone();
 	while(check(ghostPiece.clone().goDown())) {
 		ghostPiece.goDown();
