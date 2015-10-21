@@ -1,8 +1,11 @@
+var $ = require('jquery');
 var Board = require('./Board.js');
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
+var nextPiecesGenerator = require('./nextPiecesGenerator.js')();
+var NextPiecesController = require('./nextPiecesController.js');
 
 var pieceTypes = require('./PieceTypesArray.js');
 
@@ -15,7 +18,10 @@ var renderer = Renderer({board: board});
 var controls = Controls();
 controls.init();
 
-var piece = generateRandomPiece();
+var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPiecesGenerator});
+
+var piece = nextPiecesGenerator.getNextPiece();
+
 
 controls.on('right', function() {
 	if (check(piece.clone().goRight())) {
@@ -46,7 +52,7 @@ controls.on('drop', function() {
 	}
 	attachPieceToBoard(newPiece);
 	removeLines();
-	piece = generateRandomPiece();
+	piece = nextPiecesGenerator.getNextPiece();
 	renderer.render(piece, calculateGhostPiece());	
 });
 
@@ -56,6 +62,8 @@ var score = 0;
 $('#score').val(score);
 
 renderer.render(piece, calculateGhostPiece());
+
+//game loop logic
 setInterval(function() {
 	renderer.render(piece, calculateGhostPiece());
 
@@ -66,20 +74,10 @@ setInterval(function() {
 		//wait for user no input and specified seconds
 		attachPieceToBoard(piece);
 		removeLines();
-		piece = generateRandomPiece();
+		piece = nextPiecesGenerator.getNextPiece();
 	}
 
 }, 500);
-
-function generateRandomPiece () {
-	var random = Math.floor(Math.random() * pieceTypes.length);
-	var p = new Piece({
-		type: pieceTypes[random],
-		x: 3,
-		y: 0 
-	});
-	return p;
-}
 
 function attachPieceToBoard(piece) {
 	var shape = piece.shape;

@@ -60,7 +60,19 @@ module.exports = function CollisionDetection(createOptions){
 	}
 }
 
-},{"./Piece.js":4}],3:[function(require,module,exports){
+},{"./Piece.js":5}],3:[function(require,module,exports){
+module.exports = function Colors() {
+	return {
+		'I': '#27DEFF', //ljusblå
+		'J': '#3C66FF', //blå
+		'L': '#E8740C', //orange
+		'O': '#FFD70D', //gul
+		'S': '#26FF00', //grön
+		'T': '#9E0CE8', //lila
+		'Z': '#FF0000'  //röd
+	}
+}
+},{}],4:[function(require,module,exports){
 var keys = require('./keys.js');
 var Piece = require('./Piece.js');
 var $ = require('jquery');
@@ -111,7 +123,7 @@ module.exports = function Controls(createOptions) {
 		if (e.keyCode === keys.SHIFT) emit('hold');
 	}
 }
-},{"./Piece.js":4,"./keys.js":9,"jquery":12}],4:[function(require,module,exports){
+},{"./Piece.js":5,"./keys.js":10,"jquery":15}],5:[function(require,module,exports){
 var Shapes = require('./Shapes.js');
 
 function Piece(options) {
@@ -169,9 +181,9 @@ function logShape(shape) {
 }
 
 module.exports = Piece;
-},{"./Shapes.js":7}],5:[function(require,module,exports){
+},{"./Shapes.js":8}],6:[function(require,module,exports){
 module.exports = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var colorLuminance = require('./helpers.js').colorLuminance;
 var config = require('./rendererConfig.js');
 
@@ -283,7 +295,7 @@ module.exports = function Renderer(options) {
 		return ( number % 2 == 0 );
 	}
 }
-},{"./PieceTypesArray.js":5,"./helpers.js":8,"./rendererConfig.js":11}],7:[function(require,module,exports){
+},{"./PieceTypesArray.js":6,"./helpers.js":9,"./rendererConfig.js":14}],8:[function(require,module,exports){
 module.exports = {
 	'I': {
 		shape: [ [0, 0, 0, 0], 
@@ -322,7 +334,7 @@ module.exports = {
 	}
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 function colorLuminance(hex, lum) {
 
 	// validate hex string
@@ -346,7 +358,7 @@ function colorLuminance(hex, lum) {
 module.exports = {
 	colorLuminance: colorLuminance
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
 	SPACE: 32,
 	LEFT: 37,
@@ -356,12 +368,15 @@ module.exports = {
 	SHIFT: 16
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
+var $ = require('jquery');
 var Board = require('./Board.js');
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
+var nextPiecesGenerator = require('./nextPiecesGenerator.js')();
+var NextPiecesController = require('./nextPiecesController.js');
 
 var pieceTypes = require('./PieceTypesArray.js');
 
@@ -374,7 +389,10 @@ var renderer = Renderer({board: board});
 var controls = Controls();
 controls.init();
 
-var piece = generateRandomPiece();
+var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPiecesGenerator});
+
+var piece = nextPiecesGenerator.getNextPiece();
+
 
 controls.on('right', function() {
 	if (check(piece.clone().goRight())) {
@@ -405,7 +423,7 @@ controls.on('drop', function() {
 	}
 	attachPieceToBoard(newPiece);
 	removeLines();
-	piece = generateRandomPiece();
+	piece = nextPiecesGenerator.getNextPiece();
 	renderer.render(piece, calculateGhostPiece());	
 });
 
@@ -415,6 +433,8 @@ var score = 0;
 $('#score').val(score);
 
 renderer.render(piece, calculateGhostPiece());
+
+//game loop logic
 setInterval(function() {
 	renderer.render(piece, calculateGhostPiece());
 
@@ -425,20 +445,10 @@ setInterval(function() {
 		//wait for user no input and specified seconds
 		attachPieceToBoard(piece);
 		removeLines();
-		piece = generateRandomPiece();
+		piece = nextPiecesGenerator.getNextPiece();
 	}
 
 }, 500);
-
-function generateRandomPiece () {
-	var random = Math.floor(Math.random() * pieceTypes.length);
-	var p = new Piece({
-		type: pieceTypes[random],
-		x: 3,
-		y: 0 
-	});
-	return p;
-}
 
 function attachPieceToBoard(piece) {
 	var shape = piece.shape;
@@ -518,7 +528,103 @@ function calculateGhostPiece() { //calculateGhostPiecePositon??
 	return ghostPiece;
 }
 
-},{"./Board.js":1,"./CollisionDetection.js":2,"./Controls.js":3,"./Piece.js":4,"./PieceTypesArray.js":5,"./Renderer.js":6}],11:[function(require,module,exports){
+},{"./Board.js":1,"./CollisionDetection.js":2,"./Controls.js":4,"./Piece.js":5,"./PieceTypesArray.js":6,"./Renderer.js":7,"./nextPiecesController.js":12,"./nextPiecesGenerator.js":13,"jquery":15}],12:[function(require,module,exports){
+var $ = require('jquery');
+var colors = require('./Colors.js')();
+
+module.exports = function (createOptions) {
+
+	var nextPiecesGenerator = createOptions.nextPiecesGenerator;
+	var canvas;
+	var context;
+	init();
+
+	return {}
+
+	function init() {
+		canvas = document.getElementById('next-pieces');
+		context = canvas.getContext('2d');
+		
+		nextPiecesGenerator.on('update', render);
+	}
+
+	function render() {
+		var nextPieces = nextPiecesGenerator.getNextPieces();
+
+		for (var i = 0; i < nextPieces.length; i++) {
+			context.fillStyle = colors[nextPieces[i].type];
+			context.fillRect(0, (30+ 10)*i , 30, 30);
+
+		};
+	}
+
+}
+},{"./Colors.js":3,"jquery":15}],13:[function(require,module,exports){
+var pieceTypes = require('./PieceTypesArray.js');
+var Piece = require('./Piece.js');
+
+var MAX_NUMBER_OF_NEXT_PIECES = 4;
+
+module.exports = function(createOptions) {
+
+	var nextPieces = [];
+	var listeners = {};
+	init();
+
+
+	return {
+		getNextPiece: getNextPiece,
+		getNextPieces: function() { return nextPieces.slice(0); },
+		log: log,
+		on: on
+	}
+
+	function init() {
+		['update'].forEach(function(event) {
+			listeners[event] = [];
+		})
+
+		for (var i = 0; i < MAX_NUMBER_OF_NEXT_PIECES; i++) {
+			nextPieces.push(generateRandomPiece());
+		};
+	}
+
+	function on(event, callback) {
+		listeners[event].push(callback);
+	}
+
+	function emit(event, data) {
+		listeners[event].forEach(function(callback){
+			callback(data);
+		})
+	}
+
+	function getNextPiece() {
+		var nextPiece = nextPieces.shift();
+		nextPieces.push(generateRandomPiece())
+		emit('update', {nextPiece: nextPiece});
+		return nextPiece;
+	}
+
+	function generateRandomPiece () {
+		var random = Math.floor(Math.random() * pieceTypes.length);
+		var p = new Piece({
+			type: pieceTypes[random],
+			x: 3,
+			y: 0 
+		});
+		return p;
+	}
+
+	function log() {
+		var str="";
+		for (var i = 0; i < nextPieces.length; i++) {
+			str += nextPieces[i].type + " ";
+		};
+		console.log(str);
+	}
+}
+},{"./Piece.js":5,"./PieceTypesArray.js":6}],14:[function(require,module,exports){
 var pieceColors = {
 	'I': '#27DEFF', //ljusblå
 	'J': '#3C66FF', //blå
@@ -552,7 +658,7 @@ module.exports = {
 		stroke: false
 	}
 }
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9764,4 +9870,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[10]);
+},{}]},{},[11]);
