@@ -2,6 +2,7 @@ var pieceTypes = require('./PieceTypesArray.js');
 var Piece = require('./Piece.js');
 
 var MAX_NUMBER_OF_NEXT_PIECES = 4;
+var EVENTS = ['update'];
 
 module.exports = function(createOptions) {
 
@@ -18,7 +19,7 @@ module.exports = function(createOptions) {
 	}
 
 	function init() {
-		['update'].forEach(function(event) {
+		EVENTS.forEach(function(event) {
 			listeners[event] = [];
 		})
 
