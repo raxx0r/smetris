@@ -23,7 +23,7 @@ module.exports = function (createOptions) {
 		for (var i = 0; i < nextPieces.length; i++) {
 			var piece = nextPieces[i];
 			var color = colors[nextPieces[i].type];
-			//context.fillRect(0, (30+ 10)*i , 30, 30);
+
 			renderPiece(piece, {step: i});
 		};
 	}

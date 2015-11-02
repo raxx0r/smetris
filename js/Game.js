@@ -145,8 +145,7 @@ function removeLines() {
 	};
 	 if(fullLines > 0){
 	 	emit('linesCleared', {linesCleared: fullLines});
-	 }
-	 
+	 }	 
 }
 
 function emptyRow() {
