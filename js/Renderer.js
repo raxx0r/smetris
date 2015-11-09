@@ -3,12 +3,17 @@ var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
 	var board = options.board;
+	var game = options.game;
 	var pieceTypes = require('./PieceTypesArray.js');
 	var context;
 	var canvas;
 	var size;
 	square = {};
 	init();
+	game.on('boardUpdate', function (data) {
+		render(data.piece, data.ghostPiece);
+	})
+
 	return {
 		init: init,
 		render: render,

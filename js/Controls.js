@@ -1,12 +1,14 @@
 var keys = require('./keys.js');
 var Piece = require('./Piece.js');
 var $ = require('jquery');
+
 var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
 
 module.exports = function Controls(createOptions) {
 	var createOptions = createOptions || {};
 	var selector = createOptions.selector || document;
 	var listeners;
+	var timerReady = true;
 
 	return {
 		init: init,
@@ -17,6 +19,7 @@ module.exports = function Controls(createOptions) {
 	function init() {
 		$(document).ready(function(){
 			$(selector).on('keydown', keyPressed);
+			$(selector).on('keyup', keyReleased);
 		});
 		listeners = {};
 		VALID_EVENTS.forEach(function(event) {
@@ -38,13 +41,26 @@ module.exports = function Controls(createOptions) {
 			callback();
 		})
 	}
+
+	function keyReleased() {
+		timerReady = true;
+	}
 	
+	function isKeyReady() {
+		return timerReady;
+	}
+
 	function keyPressed(e) {
+		if(!isKeyReady()) return;
+
 		if (e.keyCode === keys.RIGHT) emit('right');
 		if (e.keyCode === keys.LEFT) emit('left');
 		if (e.keyCode === keys.UP)  emit('rotate');
 		if (e.keyCode === keys.DOWN) emit('down');
 		if (e.keyCode === keys.SPACE) emit('drop');
 		if (e.keyCode === keys.SHIFT) emit('hold');
+
+		timerReady = false;
+		setTimeout(function() {timerReady = true;}, 50);
 	}
 }
