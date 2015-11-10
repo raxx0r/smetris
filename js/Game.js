@@ -165,12 +165,13 @@ module.exports = function(createOptions) {
 
 	function removeLines() {
 		var fullLines = 0;
-		for (var row = 0; row < board.width(); row++) {
+		for (var row = 0; row < board.height(); row++) {
 			var fullLine = (_.min(board.row(row)) !== 0);
 			if(fullLine) {
 				fullLines++;
-				board.splice(row,1);
-				board.unshift(emptyRow());
+				board.clearRow(row);
+				//board.splice(row,1);
+				//board.unshift(emptyRow());
 			}
 		};
 		 if(fullLines > 0){
@@ -178,13 +179,6 @@ module.exports = function(createOptions) {
 		 }	 
 	}
 
-	function emptyRow() {
-		var row = [];
-		for (var i = 0; i < board.width(); i++) {
-			row.push(0);
-		};
-		return row;
-	}
 
 	function calculateGhostPiece() { //calculateGhostPiecePositon??
 		var ghostPiece = piece.clone();
