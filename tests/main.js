@@ -1,3 +1,3 @@
 
 
-require('./Controls.tests.js');
+require('./Board.tests.js');

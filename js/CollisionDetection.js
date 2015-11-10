@@ -14,11 +14,11 @@ module.exports = function CollisionDetection(createOptions){
 					var y = (piece.y + row);
 					var x = (piece.x + col);
 				
-					var isBelowBottom = y >= board.height;
+					var isBelowBottom = y >= board.height();
 					if (isBelowBottom) return false;
 	           
-					var isSpaceTaken = board[y][x] !== 0;
-					if (isSpaceTaken) return false;
+					//var isSpaceTaken = board[y][x] !== 0;
+					if (board(x)(y).isOccupied) return false;
 				 }
 			};
 		};

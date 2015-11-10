@@ -125,7 +125,7 @@ module.exports = function(createOptions) {
 					var x = piece.x + col;
 					var y = piece.y + row;
 					var index = pieceTypes.indexOf(piece.type) + 1;
-						board[y][x] = index;
+					board(x)(y).update(index);
 				}
 			};
 		};
@@ -148,14 +148,14 @@ module.exports = function(createOptions) {
 		if(outsideLeft) {
 			piece.x -= _.min(xs);
 		}
-		var outsideRight = _.max(xs) > (board.width-1);
+		var outsideRight = _.max(xs) > (board.width()-1);
 		if(outsideRight) {
-			var diff = (_.max(xs) +1 - board.width);
+			var diff = (_.max(xs) +1 - board.width());
 			piece.x -= diff;
 		}
-		var outsideBottom = _.max(ys) > (board.height-1);
+		var outsideBottom = _.max(ys) > (board.height()-1);
 		if(outsideBottom) {
-			var diff = (_.max(ys) +1 - board.height);
+			var diff = (_.max(ys) +1 - board.height());
 			piece.y -= diff;			
 		}
 
@@ -165,8 +165,8 @@ module.exports = function(createOptions) {
 
 	function removeLines() {
 		var fullLines = 0;
-		for (var row = 0; row < board.length; row++) {
-			var fullLine = (_.min(board[row]) !== 0);
+		for (var row = 0; row < board.width(); row++) {
+			var fullLine = (_.min(board.row(row)) !== 0);
 			if(fullLine) {
 				fullLines++;
 				board.splice(row,1);
@@ -180,7 +180,7 @@ module.exports = function(createOptions) {
 
 	function emptyRow() {
 		var row = [];
-		for (var i = 0; i < board.width; i++) {
+		for (var i = 0; i < board.width(); i++) {
 			row.push(0);
 		};
 		return row;
