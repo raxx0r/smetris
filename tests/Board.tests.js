@@ -62,3 +62,17 @@ describe('when retrieving a row', function(){
 
 	})
 });
+
+describe('when retrieving a certain positions value', function(){	
+	it('should get corresponding value', function() {
+		var scheme =[
+			[1, 2, 3],
+			[0, 0, 0]
+		];
+		var board = Board({boardScheme: scheme});
+
+
+		assert(board(2)(0).value == 3);
+
+	})
+});

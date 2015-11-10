@@ -35,10 +35,10 @@ module.exports = function Renderer(options) {
 	}
 
 	function renderBoard(config) {
-		for (var row = 0; row < board.length; row++) {
-			for (var col = 0; col < board[row].length; col++) {
-				if(board[row][col] !== 0) {
-					var pieceType = pieceTypes [ (board[row][col]-1) ];
+		for (var row = 0; row < board.height(); row++) {
+			for (var col = 0; col < board.width(); col++) {
+				if (board(col)(row).isOccupied) {
+					var pieceType = pieceTypes [ (board(col)(row).value - 1) ];
 					var bg = config.piece.colors[pieceType];
 					config.piece.background = bg;
 					renderSquare(col, row, config.piece);
@@ -101,8 +101,8 @@ module.exports = function Renderer(options) {
 	}
 
 	function calculateSquareSize() {
-		square.width = canvas.width / board.width;
-		square.height = canvas.height / board.height;
+		square.width = canvas.width / board.width();
+		square.height = canvas.height / board.height();
 	}
 	
 	function clear() {

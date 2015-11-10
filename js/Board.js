@@ -26,11 +26,13 @@ module.exports = function (createOptions) {
 				isFree: !check(x,y),
 				update: function (value) {
 					update(x,y,value);
-				}
+				},
+				value: value(x,y)
 			}
 		};
 	}
 
+	function value(x, y) { return boardScheme[y][x];}
 	function check(x, y) {
 		return (boardScheme[y][x] !== 0);
 	}

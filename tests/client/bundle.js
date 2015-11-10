@@ -27,13 +27,14 @@ module.exports = function (createOptions) {
 				isFree: !check(x,y),
 				update: function (value) {
 					update(x,y,value);
-				}
+				},
+				value: value(x,y)
 			}
 		};
 	}
 
+	function value(x, y) { return boardScheme[y][x];}
 	function check(x, y) {
-		console.log(x,y, boardScheme)
 		return (boardScheme[y][x] !== 0);
 	}
 
@@ -44,9 +45,9 @@ module.exports = function (createOptions) {
 	return board;
 };
 },{"./BoardScheme.js":2}],2:[function(require,module,exports){
-module.exports = function (options) {
+module.exports =[ 
 
-	var board = [
+
 		[0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0],
@@ -68,12 +69,6 @@ module.exports = function (options) {
 		[0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0],
 	];
-
-	board.height = board.length;
-	board.width = board[0].length;
-
-	return board;
-}
 
 
 },{}],3:[function(require,module,exports){
@@ -16817,6 +16812,20 @@ describe('when retrieving a row', function(){
 		assert(row[0] == 1);
 		assert(row[1] == 2);
 		assert(row[2] == 3);
+
+	})
+});
+
+describe('when retrieving a certain positions value', function(){	
+	it('should get corresponding value', function() {
+		var scheme =[
+			[1, 2, 3],
+			[0, 0, 0]
+		];
+		var board = Board({boardScheme: scheme});
+
+
+		assert(board(2)(0).value == 3);
 
 	})
 });
