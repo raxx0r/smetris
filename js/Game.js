@@ -9,6 +9,7 @@ var NextPiecesController = require('./nextPiecesController.js');
 var pieceTypes = require('./PieceTypesArray.js');
 
 var PIECE_DROP_INTERVAL = 1000;
+var EVENTS = ['linesCleared', 'boardUpdate'];
 
 module.exports = function(createOptions) {
 
@@ -29,43 +30,34 @@ module.exports = function(createOptions) {
 
 	var piece = nextPiecesGenerator.getNextPiece();
 
+	function calculateUpdate() {
+		return {
+			piece: piece, 
+			ghostPiece: calculateGhostPiece(),
+			board: board
+		}
+	}
 
 	controls.on('right', function() {
 		if (check(piece.clone().goRight())) {
 			piece.goRight();
-			emit('boardUpdate', {
-				piece: piece, 
-				ghostPiece: calculateGhostPiece(),
-				board: board
-			});
+			emit('boardUpdate', calculateUpdate());
 		}
 	})			
 	controls.on('left', function() {
 		if (check(piece.clone().goLeft())) {
 			piece.goLeft();
-			emit('boardUpdate', {
-				piece: piece, 
-				ghostPiece: calculateGhostPiece(),
-				board: board
-			});	
+			emit('boardUpdate', calculateUpdate());	
 		}
 	});
 	controls.on('rotate', function() {
 		wallKick(piece.rotate());
-		emit('boardUpdate', {
-			piece: piece, 
-			ghostPiece: calculateGhostPiece(),
-			board: board
-		});	
+		emit('boardUpdate', calculateUpdate());	
 	});
 	controls.on('down', function() {
 		if (check(piece.clone().goDown())) {
 			piece.goDown();
-			emit('boardUpdate', {
-				piece: piece, 
-				ghostPiece: calculateGhostPiece(),
-				board: board
-			});
+			emit('boardUpdate', calculateUpdate());
 		}
 	});
 	controls.on('drop', function() {
@@ -76,43 +68,31 @@ module.exports = function(createOptions) {
 		attachPieceToBoard(newPiece);
 		removeLines();
 		piece = nextPiecesGenerator.getNextPiece();
-		emit('boardUpdate', {
-			piece: piece, 
-			ghostPiece: calculateGhostPiece(),
-			board: board
-		});
+		emit('boardUpdate', calculateUpdate());
 	});
 
+	function start() {	
+		emit('boardUpdate', calculateUpdate());
+		//game loop logic
+		setInterval(function() {
+			emit('boardUpdate', calculateUpdate());
 
-	emit('boardUpdate', {
-		piece: piece, 
-		ghostPiece: calculateGhostPiece(),
-		board: board
-	});
+			if (check(piece.clone().goDown())) {
+				piece.goDown();
+			} 
+			else {
+				//wait for user no input and specified seconds
+				attachPieceToBoard(piece);
+				removeLines();
+				piece = nextPiecesGenerator.getNextPiece();
+			}
 
-	//game loop logic
-	setInterval(function() {
-		emit('boardUpdate', {
-			piece: piece, 
-			ghostPiece: calculateGhostPiece(),
-			board: board
-		});
-
-		if (check(piece.clone().goDown())) {
-			piece.goDown();
-		} 
-		else {
-			//wait for user no input and specified seconds
-			attachPieceToBoard(piece);
-			removeLines();
-			piece = nextPiecesGenerator.getNextPiece();
-		}
-
-	}, PIECE_DROP_INTERVAL);
+		}, PIECE_DROP_INTERVAL);
+	}
 
 	function init() {
 		listeners = {};
-		['linesCleared', 'boardUpdate'].forEach(function(event) {
+		EVENTS.forEach(function(event) {
 			listeners[event] = [];
 		})
 	}
@@ -198,6 +178,7 @@ module.exports = function(createOptions) {
 	}
 
 	return {
-		on: addListener
+		on: addListener,
+		start: start
 	}
 }

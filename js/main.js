@@ -8,3 +8,6 @@ var game = Game({board: board});
 
 var scoreController = ScoreController({game: game});
 var renderer = Renderer({game: game, board: board});
+
+
+game.start();

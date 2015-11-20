@@ -9,6 +9,7 @@ module.exports = function Controls(createOptions) {
 	var selector = createOptions.selector || document;
 	var listeners;
 	var timerReady = true;
+	var isRotatePressed = false;
 
 	return {
 		init: init,
@@ -42,8 +43,10 @@ module.exports = function Controls(createOptions) {
 		})
 	}
 
-	function keyReleased() {
+	function keyReleased(e) {
 		timerReady = true;
+
+		if (e.keyCode === keys.UP) isRotatePressed = false;
 	}
 	
 	function isKeyReady() {
@@ -55,10 +58,13 @@ module.exports = function Controls(createOptions) {
 
 		if (e.keyCode === keys.RIGHT) emit('right');
 		if (e.keyCode === keys.LEFT) emit('left');
-		if (e.keyCode === keys.UP)  emit('rotate');
 		if (e.keyCode === keys.DOWN) emit('down');
 		if (e.keyCode === keys.SPACE) emit('drop');
 		if (e.keyCode === keys.SHIFT) emit('hold');
+		if (e.keyCode === keys.UP && !isRotatePressed) {
+			emit('rotate');
+			isRotatePressed = true;
+		}
 
 		timerReady = false;
 		setTimeout(function() {timerReady = true;}, 50);

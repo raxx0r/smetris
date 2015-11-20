@@ -30,18 +30,36 @@ module.exports = function (createOptions) {
 
 	function renderPiece(piece, config) {
 		var step = config.step;
+		var tempRow = 0;
 		for (var row = 0; row < piece.shape.length; row++) {
+			if(emptyRow(piece.shape[row])) continue;
+			tempRow++;
+			console.log(row, piece.type)
 			for (var col = 0; col < piece.shape[row].length; col++) {
+
 				var x = (piece.x + col);
-				var y = (piece.y + row);
+				var y = (piece.y + tempRow);
 
 				if( piece.shape[row][col] !== 0 ) {
 					context.fillStyle = colors[piece.type];
-					context.fillRect( x * 21,  y * 21  + step * 70, 20, 20);
+					var thing = (piece.type == 'I') ? 25 : 50;
+					context.fillRect( x * 18,  y * 18  + step * 50, 15, 15);
 				}
 				
 			};
 		};
+	}
+
+	function emptyRow(row) {
+
+		var accumulator = 0;
+		for (var i = 0; i < row.length; i++) {
+			accumulator += row[i];
+		};
+
+		//console.log(row, (accumulator == 0))
+		return (accumulator == 0);
+	
 	}
 
 	function clear() {

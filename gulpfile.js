@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var express = require('express');
-var sourcemaps = require('gulp-sourcemaps');
+// var sourcemaps = require('gulp-sourcemaps');
 
 var app;
 var testServer;
@@ -28,8 +28,8 @@ function buildJS(options) {
   return browserify('./js/main.js')
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./'))
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    // .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./public/js'));
 }
 

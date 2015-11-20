@@ -10,7 +10,11 @@ module.exports = function(createOptions) {
 		var lines = data.linesCleared;
 		score += points[lines-1];
 		
+		render();
+	});
+
+	function render() {
 		$('#score').html(score);
-	})
+	}
 
 }

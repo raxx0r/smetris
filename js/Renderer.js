@@ -46,7 +46,8 @@ module.exports = function Renderer(options) {
 				else {
 					var bg;
 					if (config.board.checkered) {
-						bg = even(row + col) ? config.board.checked.color1 : config.board.checked.color2;
+						var checked = config.board.checked;
+						bg = even(row + col) ? checked.color1 : checked.color2;
 					}
 					else {
 						bg = config.board.background;
