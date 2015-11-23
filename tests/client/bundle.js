@@ -1,98 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function (createOptions) {
-//board(2)(2).isOccupied;
-//board.width();
-//board(2)(2).update(2);
-//
-//boardscheme  boardarray boardprototype boardskeleton boardbones boardmatrix
-
-	createOptions = createOptions || {};
-
-	var boardScheme = createOptions.boardScheme || require('./BoardScheme.js');
-
-	var board = core;
-
-	board.width = width;
-	board.height = height;
-	board.row = row;
-	board.clearRow = clearRow;
-
-	function row(row) {return boardScheme[row];}
-	function width() {return boardScheme[0].length;}
-	function height() {return boardScheme.length;}
-	function clearRow(row) {				
-		boardScheme.splice(row,1);
-		boardScheme.unshift(emptyRow());
-	}
-
-	function emptyRow() {
-		var row = [];
-		for (var i = 0; i < board.width(); i++) {
-			row.push(0);
-		};
-		return row;
-	}
-
-	function core(x) {
-		return function (y) {
-			return {
-				isOccupied: check(x,y),
-				isFree: !check(x,y),
-				update: function (value) {
-					update(x,y,value);
-				},
-				value: value(x,y)
-			}
-		};
-	}
-
-	function value(x, y) { return boardScheme[y][x];}
-	function check(x, y) {
-		return (boardScheme[y][x] !== 0);
-	}
-
-	function update(x, y, value) {
-		boardScheme[y][x] = value;
-	}
-
-	return board;
-};
-},{"./BoardScheme.js":2}],2:[function(require,module,exports){
-module.exports =[ 
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0],
-];
-
-
-},{}],3:[function(require,module,exports){
-module.exports = {
-	SPACE: 32,
-	LEFT: 37,
-	RIGHT: 39,
-	UP: 38,
-	DOWN: 40,
-	SHIFT: 16
-};
-
-},{}],4:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -453,7 +359,7 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-},{"util/":8}],5:[function(require,module,exports){
+},{"util/":5}],2:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -478,7 +384,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],6:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -571,14 +477,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],7:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],8:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1168,7 +1074,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
+},{"./support/isBuffer":4,"_process":3,"inherits":2}],6:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -10380,7 +10286,7 @@ return jQuery;
 
 }));
 
-},{}],10:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Sinon core utilities. For internal use only.
  *
@@ -10429,7 +10335,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     return sinonModule;
 }());
 
-},{"./sinon/assert":11,"./sinon/behavior":12,"./sinon/call":13,"./sinon/collection":14,"./sinon/extend":15,"./sinon/format":16,"./sinon/log_error":17,"./sinon/match":18,"./sinon/mock":19,"./sinon/sandbox":20,"./sinon/spy":21,"./sinon/stub":22,"./sinon/test":23,"./sinon/test_case":24,"./sinon/times_in_words":25,"./sinon/typeOf":26,"./sinon/util/core":27,"./sinon/walk":34}],11:[function(require,module,exports){
+},{"./sinon/assert":8,"./sinon/behavior":9,"./sinon/call":10,"./sinon/collection":11,"./sinon/extend":12,"./sinon/format":13,"./sinon/log_error":14,"./sinon/match":15,"./sinon/mock":16,"./sinon/sandbox":17,"./sinon/spy":18,"./sinon/stub":19,"./sinon/test":20,"./sinon/test_case":21,"./sinon/times_in_words":22,"./sinon/typeOf":23,"./sinon/util/core":24,"./sinon/walk":31}],8:[function(require,module,exports){
 (function (global){
 /**
  * @depend times_in_words.js
@@ -10659,7 +10565,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./format":16,"./match":18,"./util/core":27}],12:[function(require,module,exports){
+},{"./format":13,"./match":15,"./util/core":24}],9:[function(require,module,exports){
 (function (process){
 /**
  * @depend util/core.js
@@ -11034,7 +10940,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
 ));
 
 }).call(this,require('_process'))
-},{"./extend":15,"./util/core":27,"_process":6}],13:[function(require,module,exports){
+},{"./extend":12,"./util/core":24,"_process":3}],10:[function(require,module,exports){
 /**
   * @depend util/core.js
   * @depend match.js
@@ -11271,7 +11177,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./format":16,"./match":18,"./util/core":27}],14:[function(require,module,exports){
+},{"./format":13,"./match":15,"./util/core":24}],11:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend spy.js
@@ -11446,7 +11352,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./mock":19,"./spy":21,"./stub":22,"./util/core":27}],15:[function(require,module,exports){
+},{"./mock":16,"./spy":18,"./stub":19,"./util/core":24}],12:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -11559,7 +11465,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27}],16:[function(require,module,exports){
+},{"./util/core":24}],13:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -11655,7 +11561,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof formatio === "object" && formatio // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27,"formatio":35,"util":8}],17:[function(require,module,exports){
+},{"./util/core":24,"formatio":32,"util":5}],14:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -11741,7 +11647,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27}],18:[function(require,module,exports){
+},{"./util/core":24}],15:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend typeOf.js
@@ -12004,7 +11910,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./typeOf":26,"./util/core":27}],19:[function(require,module,exports){
+},{"./typeOf":23,"./util/core":24}],16:[function(require,module,exports){
 /**
  * @depend times_in_words.js
  * @depend util/core.js
@@ -12497,7 +12403,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./call":13,"./extend":15,"./format":16,"./match":18,"./spy":21,"./stub":22,"./times_in_words":25,"./util/core":27}],20:[function(require,module,exports){
+},{"./call":10,"./extend":12,"./format":13,"./match":15,"./spy":18,"./stub":19,"./times_in_words":22,"./util/core":24}],17:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend extend.js
@@ -12669,7 +12575,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./collection":14,"./extend":15,"./util/core":27,"./util/fake_server_with_clock":30,"./util/fake_timers":31}],21:[function(require,module,exports){
+},{"./collection":11,"./extend":12,"./util/core":24,"./util/fake_server_with_clock":27,"./util/fake_timers":28}],18:[function(require,module,exports){
 /**
   * @depend times_in_words.js
   * @depend util/core.js
@@ -13134,7 +13040,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./call":13,"./extend":15,"./format":16,"./times_in_words":25,"./util/core":27}],22:[function(require,module,exports){
+},{"./call":10,"./extend":12,"./format":13,"./times_in_words":22,"./util/core":24}],19:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend extend.js
@@ -13336,7 +13242,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./behavior":12,"./extend":15,"./spy":21,"./util/core":27}],23:[function(require,module,exports){
+},{"./behavior":9,"./extend":12,"./spy":18,"./util/core":24}],20:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend sandbox.js
@@ -13438,7 +13344,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     }
 }(typeof sinon === "object" && sinon || null)); // eslint-disable-line no-undef
 
-},{"./sandbox":20,"./util/core":27}],24:[function(require,module,exports){
+},{"./sandbox":17,"./util/core":24}],21:[function(require,module,exports){
 /**
  * @depend util/core.js
  * @depend test.js
@@ -13546,7 +13452,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./test":23,"./util/core":27}],25:[function(require,module,exports){
+},{"./test":20,"./util/core":24}],22:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -13597,7 +13503,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27}],26:[function(require,module,exports){
+},{"./util/core":24}],23:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -13652,7 +13558,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27}],27:[function(require,module,exports){
+},{"./util/core":24}],24:[function(require,module,exports){
 /**
  * @depend ../../sinon.js
  */
@@ -14055,7 +13961,7 @@ var sinon = (function () { // eslint-disable-line no-unused-vars
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{}],28:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * Minimal Event interface implementation
  *
@@ -14168,7 +14074,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":27}],29:[function(require,module,exports){
+},{"./core":24}],26:[function(require,module,exports){
 /**
  * @depend fake_xdomain_request.js
  * @depend fake_xml_http_request.js
@@ -14417,7 +14323,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"../format":16,"./core":27,"./fake_xdomain_request":32,"./fake_xml_http_request":33}],30:[function(require,module,exports){
+},{"../format":13,"./core":24,"./fake_xdomain_request":29,"./fake_xml_http_request":30}],27:[function(require,module,exports){
 /**
  * @depend fake_server.js
  * @depend fake_timers.js
@@ -14520,7 +14426,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":27,"./fake_server":29,"./fake_timers":31}],31:[function(require,module,exports){
+},{"./core":24,"./fake_server":26,"./fake_timers":28}],28:[function(require,module,exports){
 /**
  * Fake timer API
  * setTimeout
@@ -14595,7 +14501,7 @@ if (typeof sinon === "undefined") {
     }
 }());
 
-},{"./core":27,"lolex":36}],32:[function(require,module,exports){
+},{"./core":24,"lolex":33}],29:[function(require,module,exports){
 (function (global){
 /**
  * @depend core.js
@@ -14822,7 +14728,7 @@ if (typeof sinon === "undefined") {
 })(typeof global !== "undefined" ? global : self);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../extend":15,"../log_error":17,"./core":27,"./event":28}],33:[function(require,module,exports){
+},{"../extend":12,"../log_error":14,"./core":24,"./event":25}],30:[function(require,module,exports){
 (function (global){
 /**
  * @depend core.js
@@ -15542,7 +15448,7 @@ if (typeof sinon === "undefined") {
 ));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../extend":15,"../log_error":17,"./core":27,"./event":28}],34:[function(require,module,exports){
+},{"../extend":12,"../log_error":14,"./core":24,"./event":25}],31:[function(require,module,exports){
 /**
  * @depend util/core.js
  */
@@ -15620,7 +15526,7 @@ if (typeof sinon === "undefined") {
     typeof sinon === "object" && sinon // eslint-disable-line no-undef
 ));
 
-},{"./util/core":27}],35:[function(require,module,exports){
+},{"./util/core":24}],32:[function(require,module,exports){
 (function (global){
 ((typeof define === "function" && define.amd && function (m) {
     define("formatio", ["samsam"], m);
@@ -15837,7 +15743,7 @@ if (typeof sinon === "undefined") {
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"samsam":37}],36:[function(require,module,exports){
+},{"samsam":34}],33:[function(require,module,exports){
 (function (global){
 /*global global, window*/
 /**
@@ -16360,7 +16266,7 @@ if (typeof sinon === "undefined") {
 }(global || this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],37:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 ((typeof define === "function" && define.amd && function (m) { define("samsam", m); }) ||
  (typeof module === "object" &&
       function (m) { module.exports = m(); }) || // Node
@@ -16761,12 +16667,106 @@ if (typeof sinon === "undefined") {
     };
 });
 
+},{}],35:[function(require,module,exports){
+module.exports = function (createOptions) {
+//board(2)(2).isOccupied;
+//board.width();
+//board(2)(2).update(2);
+//
+//boardscheme  boardarray boardprototype boardskeleton boardbones boardmatrix
+
+	createOptions = createOptions || {};
+
+	var boardScheme = createOptions.boardScheme || require('./BoardScheme.js');
+
+	var board = core;
+
+	board.width = width;
+	board.height = height;
+	board.row = row;
+	board.clearRow = clearRow;
+
+	function row(row) {return boardScheme[row];}
+	function width() {return boardScheme[0].length;}
+	function height() {return boardScheme.length;}
+	function clearRow(row) {				
+		boardScheme.splice(row,1);
+		boardScheme.unshift(emptyRow());
+	}
+
+	function emptyRow() {
+		var row = [];
+		for (var i = 0; i < board.width(); i++) {
+			row.push(0);
+		};
+		return row;
+	}
+
+	function core(x) {
+		return function (y) {
+			return {
+				isOccupied: check(x,y),
+				isFree: !check(x,y),
+				update: function (value) {
+					update(x,y,value);
+				},
+				value: value(x,y)
+			}
+		};
+	}
+
+	function value(x, y) { return boardScheme[y][x];}
+	function check(x, y) {
+		return (boardScheme[y][x] !== 0);
+	}
+
+	function update(x, y, value) {
+		boardScheme[y][x] = value;
+	}
+
+	return board;
+};
+},{"./BoardScheme.js":36}],36:[function(require,module,exports){
+module.exports =[ 
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+];
+
+
+},{}],37:[function(require,module,exports){
+module.exports = {
+	SPACE: 32,
+	LEFT: 37,
+	RIGHT: 39,
+	UP: 38,
+	DOWN: 40,
+	SHIFT: 16
+};
+
 },{}],38:[function(require,module,exports){
 var $ = require('jquery');
 var assert = require('assert');
-var keys = require('../js/keys.js');
+var keys = require('../src/keys.js');
 var sinon = require('sinon');
-var Board = require('../js/Board.js');
+var Board = require('../src/Board.js');
 
 describe('when calling for width and height', function(){
 	it('should recive the correct width and height', function() {
@@ -16841,7 +16841,7 @@ describe('when retrieving a certain positions value', function(){
 	})
 });
 
-},{"../js/Board.js":1,"../js/keys.js":3,"assert":4,"jquery":9,"sinon":10}],39:[function(require,module,exports){
+},{"../src/Board.js":35,"../src/keys.js":37,"assert":1,"jquery":6,"sinon":7}],39:[function(require,module,exports){
 
 
 require('./Board.tests.js');

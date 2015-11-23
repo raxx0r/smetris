@@ -14,7 +14,7 @@ gulp.task('default', function() {
 	buildJS();
 	buildTests();
 	
-	gulp.watch('./js/**/*.js', ['js']);
+	gulp.watch('./src/**/*.js', ['js']);
 	gulp.watch(['./tests/**/*.js', '!./tests/client/*'], ['tests']);
 });
 
@@ -25,7 +25,7 @@ function buildJS(options) {
 	var options = options || {};
   var compressed = options.compressed || false;
   
-  return browserify('./js/main.js')
+  return browserify('./src/main.js')
     .bundle()
     .pipe(source('bundle.js'))
     // .pipe(sourcemaps.init({loadMaps: true}))

@@ -1,8 +1,8 @@
 var $ = require('jquery');
 var assert = require('assert');
-var keys = require('../js/keys.js');
+var keys = require('../src/keys.js');
 var sinon = require('sinon');
-var Controls = require('../js/Controls.js');
+var Controls = require('../src/Controls.js');
 
 describe('when pressing a key', function(){
 	it('should emit a corresponding event', function() {

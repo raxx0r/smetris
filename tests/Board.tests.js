@@ -1,8 +1,8 @@
 var $ = require('jquery');
 var assert = require('assert');
-var keys = require('../js/keys.js');
+var keys = require('../src/keys.js');
 var sinon = require('sinon');
-var Board = require('../js/Board.js');
+var Board = require('../src/Board.js');
 
 describe('when calling for width and height', function(){
 	it('should recive the correct width and height', function() {
