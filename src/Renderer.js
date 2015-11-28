@@ -31,7 +31,7 @@ module.exports = function Renderer(options) {
 		//clear();
 		renderBoard(config);
 		renderPiece(ghostPiece, config.ghostPiece);
-		renderPiece(piece, config.piece);
+		renderPiece(piece, Object.assign(config.piece, {background: config.piece.colors[piece.type]}));
 	}
 
 	function renderBoard(config) {
@@ -66,10 +66,6 @@ module.exports = function Renderer(options) {
 				var y = (piece.y + row);
 
 				if( piece.shape[row][col] !== 0 ) {
-					if(config.movingPiece) {
-						var bg = config.colors[piece.type];
-						config.background = bg;
-					}
 					renderSquare(x, y, config);
 				}
 				
@@ -82,23 +78,23 @@ module.exports = function Renderer(options) {
 	}
 
 	function fillSquare(x, y, options) {
-		var color = options.bg || options.background;
-		context.fillStyle = color;
+		context.fillStyle = options.background;
 		context.fillRect(x, y, square.width, square.height);
 		
-		var stroke = ((options.stroke !== undefined) ? options.stroke : true);
-		if(stroke) {
-			var strokeColor = colorLuminance(color, -0.1);
-			var strokeThickness = options.strokeThickness || 2.5;
-			//drawStroke(x, y, {strokeColor, strokeThickness})
-			context.strokeStyle = strokeColor;
-			context.lineWidth = strokeThickness;
-			var x = x + strokeThickness * 0.5;
-			var y = y + strokeThickness * 0.5;
-			var width = square.width - strokeThickness;
-			var height = square.height - strokeThickness;
+		if(options.stroke) drawStroke(x,y,options);
+	}
+
+	function drawStroke(x,y,options) {
+			var color = colorLuminance(options.background, -0.1);
+			var thickness = options.stroke.thickness || 2.5;
+
+			context.strokeStyle = color;
+			context.lineWidth = thickness;
+			var x = x + thickness * 0.5;
+			var y = y + thickness * 0.5;
+			var width = square.width - thickness;
+			var height = square.height - thickness;
 			context.strokeRect(x, y, width, height);
-		}
 	}
 
 	function calculateSquareSize() {

@@ -53,4 +53,5 @@ function startTestServer() {
 	testServer = express();
 	testServer.use(express.static('tests/client'));
 	testServer.listen(2222);
+	//build on demand: requesting file build bundle
 }

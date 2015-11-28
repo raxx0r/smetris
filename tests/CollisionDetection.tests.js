@@ -2,8 +2,9 @@ var assert = require('assert');
 var sinon = require('sinon');
 var CollisionDetection = require('../src/CollisionDetection.js');
 
-describe('when a piece is outside of board', function(){
-	it('should return false', function() {
+describe('CollisionDetection', function(){
+
+	it('when a piece is outside of board should return false', function() {
 		var board = function() {
 			return function() {
 				return {
@@ -23,13 +24,17 @@ describe('when a piece is outside of board', function(){
 
 		assert( !check(piece) );
 	})
-})
 
-describe('when a piece is outside of the sides of the board', function(){
-	it('should detect this', function() {
+	it('when a piece is outside to the right should detect this', function() {
 
-		var check = collision.isOutside(board, piece);
+		var board = { width: function() {return 3}};
+		var collision = CollisionDetection({board: board});
+		
+		var piece = {x: 2, shape: [1,2,4] }
 
-		var assert(!check);
+		var check = collision.isOutsideRight(board, piece);
+
+		assert(check);
 	})
+
 })

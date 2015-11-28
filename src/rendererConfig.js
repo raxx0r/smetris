@@ -21,10 +21,10 @@ module.exports = {
 		strokeThickness: 0.3
 	},
 	piece: {
-		strokeThickness: 3.5,
-		stroke: true,
+		stroke: {
+			thickness: 3.5,
+		},
 		colors: pieceColors,
-		movingPiece: true //dummy no config property
 	},
 	ghostPiece: { 
 		background: 'rgba(100, 100, 100, 0.6)', 

@@ -1,10 +1,11 @@
 var Piece = require('./Piece.js');
 
 module.exports = function CollisionDetection(createOptions){
+	var createOptions = createOptions || {};
 	var board = createOptions.board;
 	return {
 		check: check,
-		isOutside: isOutside
+		isOutsideRight: isOutsideRight
 	};
 
 	function check(piece) {
@@ -26,6 +27,11 @@ module.exports = function CollisionDetection(createOptions){
 
 	function isBelowBottom(board, piece) {}
 
-	function isOutside(board, piece) {}
+	function isOutsideRight(board, piece) {
+		var shape = piece.shape;
+		console.log(piece.x, shape, board.width());
+		return (piece.x + shape.length) > board.width()
+		return true;
+	}
 
 }
