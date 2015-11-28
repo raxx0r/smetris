@@ -1,3 +1,3 @@
 
 
-require('./Board.tests.js');
+require('./Game.tests.js');

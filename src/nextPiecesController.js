@@ -34,7 +34,7 @@ module.exports = function (createOptions) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			if(emptyRow(piece.shape[row])) continue;
 			tempRow++;
-			console.log(row, piece.type)
+
 			for (var col = 0; col < piece.shape[row].length; col++) {
 
 				var x = (piece.x + col);
@@ -51,15 +51,11 @@ module.exports = function (createOptions) {
 	}
 
 	function emptyRow(row) {
-
 		var accumulator = 0;
 		for (var i = 0; i < row.length; i++) {
 			accumulator += row[i];
 		};
-
-		//console.log(row, (accumulator == 0))
-		return (accumulator == 0);
-	
+		return (accumulator == 0);	
 	}
 
 	function clear() {

@@ -3,7 +3,8 @@ var Piece = require('./Piece.js');
 module.exports = function CollisionDetection(createOptions){
 	var board = createOptions.board;
 	return {
-		check: check
+		check: check,
+		isOutside: isOutside
 	};
 
 	function check(piece) {
@@ -14,14 +15,17 @@ module.exports = function CollisionDetection(createOptions){
 					var y = (piece.y + row);
 					var x = (piece.x + col);
 				
-					var isBelowBottom = y >= board.height();
+					var isBelowBottom = (y >= board.height());
 					if (isBelowBottom) return false;
-	           
-					//var isSpaceTaken = board[y][x] !== 0;
 					if (board(x)(y).isOccupied) return false;
 				 }
 			};
 		};
 		return true;		
 	}
+
+	function isBelowBottom(board, piece) {}
+
+	function isOutside(board, piece) {}
+
 }

@@ -9,7 +9,7 @@ var NextPiecesController = require('./nextPiecesController.js');
 var pieceTypes = require('./PieceTypesArray.js');
 
 var PIECE_DROP_INTERVAL = 1000;
-var EVENTS = ['linesCleared', 'boardUpdate'];
+var EVENTS = ['linesCleared', 'boardUpdate', 'gameOver'];
 
 module.exports = function(createOptions) {
 
@@ -51,8 +51,10 @@ module.exports = function(createOptions) {
 		}
 	});
 	controls.on('rotate', function() {
-		wallKick(piece.rotate());
-		emit('boardUpdate', calculateUpdate());	
+		if (check(wallKick(piece.clone().rotate()))) {
+			wallKick(piece.rotate());
+			emit('boardUpdate', calculateUpdate());	
+		}
 	});
 	controls.on('down', function() {
 		if (check(piece.clone().goDown())) {
@@ -77,9 +79,14 @@ module.exports = function(createOptions) {
 		setInterval(function() {
 			emit('boardUpdate', calculateUpdate());
 
-			if (check(piece.clone().goDown())) {
+			var canGoDown = check(piece.clone().goDown());
+
+			if (canGoDown) {
 				piece.goDown();
 			} 
+			else if (!canGoDown && (piece.y == 0)) {
+				emit('gameOver');
+			}
 			else {
 				//wait for user no input and specified seconds
 				attachPieceToBoard(piece);
@@ -111,37 +118,32 @@ module.exports = function(createOptions) {
 		};
 	}
 
-	function wallKick(piece) {
+	function wallKick(piece) { //compensatepositionforwalls keepinsidebounds kickinsidebounds
+		/*
+			Responsability:
+			Check if oustide left, right and bottom
+			Compensate the piece position;
+			Too many responsibilities for a function
+			Should it even compensate for bottom?
+		 */
 		var shape = piece.shape;
-		var xs =[];
-		var ys =[];
-		for (var row = 0; row < shape.length; row++) {
-			for (var col = 0; col < shape[row].length; col++) {
-				if(shape[row][col] !== 0) {
-					xs.push(piece.x + col);
-					ys.push(piece.y + row);
-				}
-			};
-		};
 
-		var outsideLeft = _.min(xs) < 0;
-		if(outsideLeft) {
-			piece.x -= _.min(xs);
+		if(piece.x < 0) {
+			piece.x = 0;
 		}
-		var outsideRight = _.max(xs) > (board.width()-1);
+		
+		var outsideRight = (piece.x + shape.length) > board.width()
 		if(outsideRight) {
-			var diff = (_.max(xs) +1 - board.width());
-			piece.x -= diff;
+			piece.x = (board.width() - shape[0].length);
 		}
-		var outsideBottom = _.max(ys) > (board.height()-1);
+
+		var outsideBottom = (piece.y + shape.length) > board.height();
 		if(outsideBottom) {
-			var diff = (_.max(ys) +1 - board.height());
-			piece.y -= diff;			
+			piece.y = board.height() - shape[0].length;	
 		}
 
 		return piece;
 	}
-
 
 	function removeLines() {
 		var fullLines = 0;
@@ -150,15 +152,12 @@ module.exports = function(createOptions) {
 			if(fullLine) {
 				fullLines++;
 				board.clearRow(row);
-				//board.splice(row,1);
-				//board.unshift(emptyRow());
 			}
 		};
 		 if(fullLines > 0){
 		 	emit('linesCleared', {linesCleared: fullLines});
 		 }	 
 	}
-
 
 	function calculateGhostPiece() { //calculateGhostPiecePositon??
 		var ghostPiece = piece.clone();
@@ -171,7 +170,6 @@ module.exports = function(createOptions) {
 	function addListener(event, callback) {
 		listeners[event].push(callback);
 	}
-
 
 	function emit(event, data) {
 		listeners[event].forEach(function(callback){callback(data);});

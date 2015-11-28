@@ -1,14 +1,8 @@
 module.exports = function (createOptions) {
-//board(2)(2).isOccupied;
-//board.width();
-//board(2)(2).update(2);
-//
-//boardscheme  boardarray boardprototype boardskeleton boardbones boardmatrix
 
 	createOptions = createOptions || {};
 
 	var boardScheme = createOptions.boardScheme || require('./BoardScheme.js');
-
 	var board = core;
 
 	board.width = width;

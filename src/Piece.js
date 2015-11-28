@@ -31,6 +31,10 @@ Piece.prototype.rotate = function() {
 	return this;
 }
 
+Piece.prototype.log = function() {
+	logShape(this.shape)
+}
+
 function rotation(shape) {
 	var n = [];
 	for (var row = 0; row < shape.length; row++) {

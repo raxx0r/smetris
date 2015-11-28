@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var Game = require('./Game.js');
 var ScoreController = require('./ScoreController.js');
 var Renderer = require('./Renderer.js');
@@ -11,3 +12,7 @@ var renderer = Renderer({game: game, board: board});
 
 
 game.start();
+
+game.on('gameOver', function (){
+	$('#alerter').text("Game over!");
+})
