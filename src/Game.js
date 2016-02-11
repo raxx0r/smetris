@@ -1,7 +1,5 @@
-
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
-var Controls = require('./Controls.js');
 var Renderer = require('./Renderer.js');
 var nextPiecesGenerator = require('./nextPiecesGenerator.js')();
 var NextPiecesController = require('./nextPiecesController.js');
@@ -14,6 +12,7 @@ var EVENTS = ['linesCleared', 'boardUpdate', 'gameOver'];
 module.exports = function(createOptions) {
 
 	var board = createOptions.board;
+	var controls = createOptions.controls;
 
 	var listeners = {};
 	init();
@@ -23,8 +22,6 @@ module.exports = function(createOptions) {
 		board: board
 	});
 	var check = collisionDetection.check;
-	var controls = Controls();
-	controls.init();
 
 	var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPiecesGenerator});
 
@@ -76,7 +73,7 @@ module.exports = function(createOptions) {
 	function start() {	
 		emit('boardUpdate', calculateUpdate());
 		//game loop logic
-		setInterval(function() {
+		var intervalId = setInterval(function() {
 			emit('boardUpdate', calculateUpdate());
 
 			var canGoDown = check(piece.clone().goDown());
@@ -86,6 +83,7 @@ module.exports = function(createOptions) {
 			} 
 			else if (!canGoDown && (piece.y == 0)) {
 				emit('gameOver');
+				clearInterval(intervalId);
 			}
 			else {
 				//wait for user no input and specified seconds
@@ -168,6 +166,8 @@ module.exports = function(createOptions) {
 	}
 
 	function addListener(event, callback) {
+		if (!EVENTS.includes(event)) throw Error("event " + event + " not supported");
+
 		listeners[event].push(callback);
 	}
 

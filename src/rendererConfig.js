@@ -16,9 +16,7 @@ module.exports = {
 		checked: {
 			color1: '#fff',
 			color2: '#eee'
-		},
-		stroke: false,
-		strokeThickness: 0.3
+		}
 	},
 	piece: {
 		stroke: {
