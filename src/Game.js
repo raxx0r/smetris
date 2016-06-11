@@ -13,7 +13,6 @@ module.exports = function(createOptions) {
 
 	var config = createOptions.config;
 	var points = config.pointsPerLinesCleared;
-	console.log(points);
 	var board = createOptions.board;
 	var controls = createOptions.controls;
 	var score = 0;

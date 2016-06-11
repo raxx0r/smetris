@@ -3,7 +3,6 @@ var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
 	var board = options.board;
-	var game = options.game;
 	var pieceTypes = require('./PieceTypesArray.js');
 	var context;
 	var canvas;
@@ -20,21 +19,22 @@ module.exports = function Renderer(options) {
 	function init() {
 		canvas = document.getElementById('game-canvas');
 		context = canvas.getContext('2d');
-		game.on('boardUpdate', function (data) {
-			render(data.piece, data.ghostPiece);
-		})
+		
 		//context.scale(2,2);
 		calculateSquareSize();
 	}
 
-	function render(piece, ghostPiece) {
+	function render(data) {
+		var piece = data.piece;
+		var ghostPiece = data.ghostPiece;
+		var board = data.board;
 		//clear();
-		renderBoard(config);
+		renderBoard(board, config);
 		renderPiece(ghostPiece, config.ghostPiece);
 		renderPiece(piece, Object.assign(config.piece, {background: config.piece.colors[piece.type]}));
 	}
 
-	function renderBoard(config) {
+	function renderBoard(board, config) {
 		for (var row = 0; row < board.height(); row++) {
 			for (var col = 0; col < board.width(); col++) {
 				if (board(col)(row).isOccupied) {

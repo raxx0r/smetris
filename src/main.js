@@ -14,11 +14,12 @@ var controls = Controls({config: config});
 controls.init();
 
 var game = Game({board: board, controls: controls, config: config});
+var renderer = Renderer({game: game, board: board});
+game.on('boardUpdate', renderer.render);
 
 var audio = Audio({game: game, controls:controls});
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
-var renderer = Renderer({game: game, board: board});
 
 game.start();
 
