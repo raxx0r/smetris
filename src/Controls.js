@@ -5,6 +5,7 @@ var $ = require('jquery');
 var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
 
 module.exports = function Controls(createOptions) {
+	var config = createOptions.config;
 	var createOptions = createOptions || {};
 	var selector = createOptions.selector || document;
 	var listeners;
@@ -67,6 +68,6 @@ module.exports = function Controls(createOptions) {
 		}
 
 		timerReady = false;
-		setTimeout(function() {timerReady = true;}, 50);
+		setTimeout(function() {timerReady = true;}, config.controls.repeatCooldown);
 	}
 }

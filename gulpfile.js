@@ -37,10 +37,10 @@ function buildTests(options) {
 	var options = options || {};
   var compressed = options.compressed || false;
   
-  return browserify('./tests/main.js')
+  return browserify('./test/main.js')
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./tests/client/'));
+    .pipe(gulp.dest('./test/client/'));
 }
 
 function startServer() {
@@ -51,7 +51,7 @@ function startServer() {
 
 function startTestServer() {
 	testServer = express();
-	testServer.use(express.static('tests/client'));
+	testServer.use(express.static('test/client'));
 	testServer.listen(2222);
 	//build on demand: requesting file build bundle
 }

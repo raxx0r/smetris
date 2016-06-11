@@ -11,8 +11,12 @@ var EVENTS = ['linesCleared', 'boardUpdate', 'gameOver'];
 
 module.exports = function(createOptions) {
 
+	var config = createOptions.config;
+	var points = config.pointsPerLinesCleared;
+	console.log(points);
 	var board = createOptions.board;
 	var controls = createOptions.controls;
+	var score = 0;
 
 	var listeners = {};
 	init();
@@ -82,7 +86,7 @@ module.exports = function(createOptions) {
 				piece.goDown();
 			} 
 			else if (!canGoDown && (piece.y == 0)) {
-				emit('gameOver');
+				emit('gameOver', {score: score});
 				clearInterval(intervalId);
 			}
 			else {
@@ -153,6 +157,7 @@ module.exports = function(createOptions) {
 			}
 		};
 		 if(fullLines > 0){
+		 	score += points[fullLines-1];
 		 	emit('linesCleared', {linesCleared: fullLines});
 		 }	 
 	}

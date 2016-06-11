@@ -10,9 +10,6 @@ module.exports = function Renderer(options) {
 	var size;
 	square = {};
 	init();
-	game.on('boardUpdate', function (data) {
-		render(data.piece, data.ghostPiece);
-	})
 
 	return {
 		init: init,
@@ -23,6 +20,9 @@ module.exports = function Renderer(options) {
 	function init() {
 		canvas = document.getElementById('game-canvas');
 		context = canvas.getContext('2d');
+		game.on('boardUpdate', function (data) {
+			render(data.piece, data.ghostPiece);
+		})
 		//context.scale(2,2);
 		calculateSquareSize();
 	}

@@ -8,7 +8,6 @@ module.exports = function (options) {
 		GAME_OVER: 'game_over.wav'
 	}
 
-	controls.on('rotate', play(sounds.ROTATE));
 	controls.on('drop', play(sounds.HITS_BOTTOM));
 	game.on('gameOver', play(sounds.GAME_OVER));
 

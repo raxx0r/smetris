@@ -1,8 +1,8 @@
 var $ = require('jquery');
 
 module.exports = function(createOptions) {
-
-	var points = [40, 100, 300, 1200];
+	var config = createOptions.config;
+	var points = config.pointsPerLinesCleared;
 	var game = createOptions.game;
 	var score = 0;
 
