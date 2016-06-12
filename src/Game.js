@@ -1,8 +1,6 @@
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Renderer = require('./Renderer.js');
-var nextPiecesGenerator = require('./nextPiecesGenerator.js')();
-var NextPiecesController = require('./nextPiecesController.js');
 
 var pieceTypes = require('./PieceTypesArray.js');
 
@@ -12,6 +10,7 @@ var EVENTS = ['linesCleared', 'boardUpdate', 'gameOver'];
 module.exports = function(createOptions) {
 
 	var config = createOptions.config;
+	var nextPiecesGenerator = createOptions.nextPiecesGenerator;
 	var points = config.pointsPerLinesCleared;
 	var board = createOptions.board;
 	var controls = createOptions.controls;
@@ -26,7 +25,7 @@ module.exports = function(createOptions) {
 	});
 	var check = collisionDetection.check;
 
-	var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPiecesGenerator});
+	
 
 	var piece = nextPiecesGenerator.getNextPiece();
 
