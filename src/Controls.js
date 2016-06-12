@@ -68,6 +68,6 @@ module.exports = function Controls(createOptions) {
 		}
 
 		timerReady = false;
-		setTimeout(function() {timerReady = true;}, config.controls.repeatCooldown);
+		setTimeout(function() {timerReady = true;}, config.controls.REPEAT_COOLDOWN);
 	}
 }

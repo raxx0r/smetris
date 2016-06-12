@@ -25,8 +25,6 @@ module.exports = function(createOptions) {
 	});
 	var check = collisionDetection.check;
 
-	
-
 	var piece = nextPiecesGenerator.getNextPiece();
 
 	function calculateUpdate() {
