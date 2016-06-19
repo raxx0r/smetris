@@ -21,8 +21,6 @@ var game = Game({board: board, controls: controls, config: config, nextPiecesGen
 var mainCanvas = document.getElementById('game-canvas');
 var squareSize = utils.calculateSquareSizeForBoard(mainCanvas, board);
 var mainRenderer = Renderer({
-	game: game,
-	board: board,
 	canvas: mainCanvas,
 	squareSize: squareSize
 });
