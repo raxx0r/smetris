@@ -2,12 +2,12 @@ var colorLuminance = require('./helpers.js').colorLuminance;
 var config = require('./rendererConfig.js');
 
 module.exports = function Renderer(options) {
-	var board = options.board;
+	var canvas = options.canvas;
 	var pieceTypes = require('./PieceTypesArray.js');
 	var context;
 	var canvas;
 	var size;
-	square = {};
+	var square = options.squareSize;
 	init();
 
 	return {
@@ -17,11 +17,8 @@ module.exports = function Renderer(options) {
 	};
 
 	function init() {
-		canvas = document.getElementById('game-canvas');
 		context = canvas.getContext('2d');
-		
 		//context.scale(2,2);
-		calculateSquareSize();
 	}
 
 	function render(data) {
@@ -95,11 +92,6 @@ module.exports = function Renderer(options) {
 			var width = square.width - thickness;
 			var height = square.height - thickness;
 			context.strokeRect(x, y, width, height);
-	}
-
-	function calculateSquareSize() {
-		square.width = canvas.width / board.width();
-		square.height = canvas.height / board.height();
 	}
 	
 	function clear() {
