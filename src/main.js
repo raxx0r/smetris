@@ -16,7 +16,7 @@ var board = Board();
 var controls = Controls({config: config});
 controls.init();
 
-var game = Game({board: board, controls: controls, config: config, nextPiecesGenerator: nextPiecesGenerator});
+game = Game({board: board, controls: controls, config: config, nextPiecesGenerator: nextPiecesGenerator});
 
 var mainCanvas = document.getElementById('game-canvas');
 var squareSize = utils.calculateSquareSizeForBoard(mainCanvas, board);

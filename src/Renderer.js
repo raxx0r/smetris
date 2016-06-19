@@ -18,7 +18,7 @@ module.exports = function Renderer(options) {
 
 	function init() {
 		context = canvas.getContext('2d');
-		//context.scale(2,2);
+		// context.scale(2,2);
 	}
 
 	function render(data) {
@@ -75,8 +75,10 @@ module.exports = function Renderer(options) {
 	}
 
 	function fillSquare(x, y, options) {
+		var width = square.width;
+		var height = square.height;
 		context.fillStyle = options.background;
-		context.fillRect(x, y, square.width, square.height);
+		context.fillRect(x, y, width, height);
 		
 		if(options.stroke) drawStroke(x,y,options);
 	}
