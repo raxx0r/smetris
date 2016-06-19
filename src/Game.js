@@ -15,6 +15,7 @@ module.exports = function(createOptions) {
 	var board = createOptions.board;
 	var controls = createOptions.controls;
 	var score = 0;
+	var intervalId;
 
 	var listeners = {};
 	init();
@@ -73,7 +74,7 @@ module.exports = function(createOptions) {
 	function start() {	
 		emit('boardUpdate', calculateUpdate());
 		//game loop logic
-		var intervalId = setInterval(function() {
+		intervalId = setInterval(function() {
 			emit('boardUpdate', calculateUpdate());
 
 			var canGoDown = check(piece.clone().goDown());
@@ -93,6 +94,10 @@ module.exports = function(createOptions) {
 			}
 
 		}, PIECE_DROP_INTERVAL);
+	}
+
+	function pause() {
+		clearInterval(intervalId);
 	}
 
 	function init() {
@@ -178,6 +183,7 @@ module.exports = function(createOptions) {
 
 	return {
 		on: addListener,
-		start: start
+		start: start,
+		pause: pause
 	}
 }
