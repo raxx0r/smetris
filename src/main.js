@@ -24,7 +24,7 @@ var mainRenderer = Renderer({
 	canvas: mainCanvas,
 	squareSize: squareSize
 });
-game.on('boardUpdate', mainRenderer.render);
+game.on('UPDATE', mainRenderer.render);
 
 var audio = Audio({game: game, controls:controls});
 
@@ -35,7 +35,7 @@ var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPieces
 
 game.start();
 
-game.on('gameOver', function (event){
+game.on('GAME_OVER', function (event){
 	var newScore = event.score;
 
 	var highscore = localStorage.getItem("highscore");
@@ -44,6 +44,6 @@ game.on('gameOver', function (event){
 	}
 });
 
-game.on('gameOver', function (){
+game.on('GAME_OVER', function (){
 	$('#alerter').text("Game over!");
 })

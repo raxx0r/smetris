@@ -5,7 +5,7 @@ var Renderer = require('./Renderer.js');
 var pieceTypes = require('./PieceTypesArray.js');
 
 var PIECE_DROP_INTERVAL = 1000;
-var EVENTS = ['linesCleared', 'boardUpdate', 'gameOver'];
+var EVENTS = ['LINES_CLEARED', 'UPDATE', 'GAME_OVER'];
 
 module.exports = function(createOptions) {
 
@@ -30,7 +30,7 @@ module.exports = function(createOptions) {
 
 	function calculateUpdate() {
 		return {
-			piece: piece, 
+			piece: piece,
 			ghostPiece: calculateGhostPiece(),
 			board: board
 		}
@@ -39,25 +39,25 @@ module.exports = function(createOptions) {
 	controls.on('right', function() {
 		if (check(piece.clone().goRight())) {
 			piece.goRight();
-			emit('boardUpdate', calculateUpdate());
+			emit('UPDATE', calculateUpdate());
 		}
-	})			
+	})
 	controls.on('left', function() {
 		if (check(piece.clone().goLeft())) {
 			piece.goLeft();
-			emit('boardUpdate', calculateUpdate());	
+			emit('UPDATE', calculateUpdate());
 		}
 	});
 	controls.on('rotate', function() {
 		if (check(wallKick(piece.clone().rotate()))) {
 			wallKick(piece.rotate());
-			emit('boardUpdate', calculateUpdate());	
+			emit('UPDATE', calculateUpdate());
 		}
 	});
 	controls.on('down', function() {
 		if (check(piece.clone().goDown())) {
 			piece.goDown();
-			emit('boardUpdate', calculateUpdate());
+			emit('UPDATE', calculateUpdate());
 		}
 	});
 	controls.on('drop', function() {
@@ -68,22 +68,29 @@ module.exports = function(createOptions) {
 		attachPieceToBoard(newPiece);
 		removeLines();
 		piece = nextPiecesGenerator.getNextPiece();
-		emit('boardUpdate', calculateUpdate());
+		emit('UPDATE', calculateUpdate());
 	});
 
-	function start() {	
-		emit('boardUpdate', calculateUpdate());
+	controls.on('hold', function() {
+		console.log('hold')
+		var temp = piece;
+
+
+	})
+
+	function start() {
+		emit('UPDATE', calculateUpdate());
 		//game loop logic
 		intervalId = setInterval(function() {
-			emit('boardUpdate', calculateUpdate());
+			emit('UPDATE', calculateUpdate());
 
 			var canGoDown = check(piece.clone().goDown());
 
 			if (canGoDown) {
 				piece.goDown();
-			} 
+			}
 			else if (!canGoDown && (piece.y == 0)) {
-				emit('gameOver', {score: score});
+				emit('GAME_OVER', {score: score});
 				clearInterval(intervalId);
 			}
 			else {
@@ -134,7 +141,7 @@ module.exports = function(createOptions) {
 		if(piece.x < 0) {
 			piece.x = 0;
 		}
-		
+
 		var outsideRight = (piece.x + shape.length) > board.width()
 		if(outsideRight) {
 			piece.x = (board.width() - shape[0].length);
@@ -142,7 +149,7 @@ module.exports = function(createOptions) {
 
 		var outsideBottom = (piece.y + shape.length) > board.height();
 		if(outsideBottom) {
-			piece.y = board.height() - shape[0].length;	
+			piece.y = board.height() - shape[0].length;
 		}
 
 		return piece;
@@ -159,8 +166,8 @@ module.exports = function(createOptions) {
 		};
 		 if(fullLines > 0){
 		 	score += points[fullLines-1];
-		 	emit('linesCleared', {linesCleared: fullLines});
-		 }	 
+		 	emit('LINES_CLEARED', {linesCleared: fullLines});
+		 }
 	}
 
 	function calculateGhostPiece() { //calculateGhostPiecePositon??

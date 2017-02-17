@@ -6,10 +6,10 @@ module.exports = function(createOptions) {
 	var game = createOptions.game;
 	var score = 0;
 
-	game.on('linesCleared', function(data) {
+	game.on('LINES_CLEARED', function(data) {
 		var lines = data.linesCleared;
 		score += points[lines-1];
-		
+
 		render();
 	});
 
