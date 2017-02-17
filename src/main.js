@@ -1,4 +1,4 @@
-var $ = require('jquery');
+$ = require('jquery');
 var Audio = require('./Audio.js');
 var Game = require('./Game.js');
 var Controls = require('./Controls.js');

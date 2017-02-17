@@ -1,12 +1,11 @@
 var keys = require('./keys.js');
 var Piece = require('./Piece.js');
-var $ = require('jquery');
 
 var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
 
 module.exports = function Controls(createOptions) {
-	var config = createOptions.config;
 	var createOptions = createOptions || {};
+	var config = createOptions.config;
 	var selector = createOptions.selector || document;
 	var listeners;
 	var timerReady = true;
@@ -49,7 +48,7 @@ module.exports = function Controls(createOptions) {
 
 		if (e.keyCode === keys.UP) isRotatePressed = false;
 	}
-	
+
 	function isKeyReady() {
 		return timerReady;
 	}
