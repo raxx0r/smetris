@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "gulp",
+    "test": "mocha"
+  },
   "devDependencies": {
     "browserify": "^11.2.0",
     "buster": "^0.7.18",
