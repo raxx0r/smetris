@@ -9,7 +9,7 @@ module.exports = function (options) {
 	}
 
 	controls.on('drop', play(sounds.HITS_BOTTOM));
-	game.on('gameOver', play(sounds.GAME_OVER));
+	// game.on('gameOver', play(sounds.GAME_OVER));
 
 	function play(sound) {
 		return function () {
