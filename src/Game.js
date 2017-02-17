@@ -36,31 +36,42 @@ module.exports = function(createOptions) {
 		}
 	}
 
-	controls.on('right', function() {
+	controls.on('right', onRightPressed)
+	controls.on('left', onLeftPressed);
+	controls.on('rotate', onRotatePressed);
+	controls.on('down', onDownPressed);
+	controls.on('drop', onDropPressed);
+	controls.on('hold', onHoldPressed);
+
+	function onRightPressed() {
 		if (check(piece.clone().goRight())) {
 			piece.goRight();
 			emit('UPDATE', calculateUpdate());
 		}
-	})
-	controls.on('left', function() {
+	}
+
+	function onLeftPressed() {
 		if (check(piece.clone().goLeft())) {
 			piece.goLeft();
 			emit('UPDATE', calculateUpdate());
 		}
-	});
-	controls.on('rotate', function() {
+	}
+
+	function onRotatePressed() {
 		if (check(wallKick(piece.clone().rotate()))) {
 			wallKick(piece.rotate());
 			emit('UPDATE', calculateUpdate());
 		}
-	});
-	controls.on('down', function() {
+	}
+
+	function onDownPressed() {
 		if (check(piece.clone().goDown())) {
 			piece.goDown();
 			emit('UPDATE', calculateUpdate());
 		}
-	});
-	controls.on('drop', function() {
+	}
+
+	function onDropPressed() {
 		var newPiece = piece.clone();
 		while(check(newPiece.clone().goDown())) {
 			newPiece.goDown();
@@ -69,14 +80,13 @@ module.exports = function(createOptions) {
 		removeLines();
 		piece = nextPiecesGenerator.getNextPiece();
 		emit('UPDATE', calculateUpdate());
-	});
+	}
 
-	controls.on('hold', function() {
+	function onHoldPressed() {
 		console.log('hold')
 		var temp = piece;
+	}
 
-
-	})
 
 	function start() {
 		emit('UPDATE', calculateUpdate());
