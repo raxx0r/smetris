@@ -20,6 +20,7 @@ module.exports = function(createOptions) {
 	var intervalId;
 	var queue;
 	var piece;
+	var hold;
 
 
 	var listeners = {};
@@ -37,7 +38,8 @@ module.exports = function(createOptions) {
 			piece: piece,
 			ghostPiece: calculateGhostPiece(),
 			board: board,
-			queue: queue
+			queue: queue,
+			hold: hold
 		}
 	}
 
@@ -86,8 +88,18 @@ module.exports = function(createOptions) {
 	}
 
 	function onHoldPressed() {
-		console.log('hold')
-		// swap();
+		if (hold) {
+			var temp = piece.clone();
+			piece = hold.clone()
+			hold = temp;
+		}
+		else {
+			hold = piece.clone();
+			piece = queue.shift();
+			queue.push(generateRandomPiece());
+		}
+
+		emit('UPDATE', calculateUpdate());
 	}
 
 	function start() {
