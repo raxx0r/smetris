@@ -7,7 +7,6 @@ var HighscoreController = require('./HighscoreController.js');
 var Renderer = require('./Renderer.js');
 var Board = require('./Board.js');
 var config = require('./config.js');
-var nextPiecesGenerator = require('./nextPiecesGenerator.js')();
 var NextPiecesController = require('./nextPiecesController.js');
 var utils = require('./utils.js');
 
@@ -16,7 +15,7 @@ var board = Board();
 var controls = Controls({config: config});
 controls.init();
 
-game = Game({board: board, controls: controls, config: config, nextPiecesGenerator: nextPiecesGenerator});
+game = Game({board: board, controls: controls, config: config});
 
 var mainCanvas = document.getElementById('game-canvas');
 var squareSize = utils.calculateSquareSizeForBoard(mainCanvas, board);
@@ -31,7 +30,7 @@ var audio = Audio({game: game, controls:controls});
 // Controllers
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
-var nextPiecesController = NextPiecesController({nextPiecesGenerator: nextPiecesGenerator});
+var nextPiecesController = NextPiecesController({game: game});
 
 game.start();
 

@@ -2,8 +2,8 @@ var $ = require('jquery');
 var colors = require('./Colors.js');
 
 module.exports = function (createOptions) {
+	var game = createOptions.game;
 
-	var nextPiecesGenerator = createOptions.nextPiecesGenerator;
 	var canvas;
 	var context;
 	init();
@@ -13,13 +13,14 @@ module.exports = function (createOptions) {
 	function init() {
 		canvas = document.getElementById('next-pieces');
 		context = canvas.getContext('2d');
-		
-		nextPiecesGenerator.on('update', render);
+
+		game.on('UPDATE', render);
 	}
 
-	function render() {
+	function render(event) {
+		var nextPieces = event.queue;
 		clear();
-		var nextPieces = nextPiecesGenerator.getNextPieces();
+
 		for (var i = 0; i < nextPieces.length; i++) {
 			var piece = nextPieces[i];
 			var color = colors[nextPieces[i].type];
@@ -45,7 +46,7 @@ module.exports = function (createOptions) {
 					var thing = (piece.type == 'I') ? 25 : 50;
 					context.fillRect( x * 18,  y * 18  + step * 50, 15, 15);
 				}
-				
+
 			};
 		};
 	}
@@ -55,7 +56,7 @@ module.exports = function (createOptions) {
 		for (var i = 0; i < row.length; i++) {
 			accumulator += row[i];
 		};
-		return (accumulator == 0);	
+		return (accumulator == 0);
 	}
 
 	function clear() {

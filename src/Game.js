@@ -1,6 +1,8 @@
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
 var Renderer = require('./Renderer.js');
+var getRandomPieces = require('./nextPiecesHelpers.js').getRandomPieces;
+var generateRandomPiece = require('./nextPiecesHelpers.js').generateRandomPiece;
 
 var pieceTypes = require('./PieceTypesArray.js');
 
@@ -16,6 +18,9 @@ module.exports = function(createOptions) {
 	var controls = createOptions.controls;
 	var score = 0;
 	var intervalId;
+	var queue;
+	var piece;
+
 
 	var listeners = {};
 	init();
@@ -26,13 +31,13 @@ module.exports = function(createOptions) {
 	});
 	var check = collisionDetection.check;
 
-	var piece = nextPiecesGenerator.getNextPiece();
 
 	function calculateUpdate() {
 		return {
 			piece: piece,
 			ghostPiece: calculateGhostPiece(),
-			board: board
+			board: board,
+			queue: queue
 		}
 	}
 
@@ -76,19 +81,19 @@ module.exports = function(createOptions) {
 		while(check(newPiece.clone().goDown())) {
 			newPiece.goDown();
 		}
-		attachPieceToBoard(newPiece);
-		removeLines();
-		piece = nextPiecesGenerator.getNextPiece();
-		emit('UPDATE', calculateUpdate());
+
+		onPieceLanded(newPiece);
 	}
 
 	function onHoldPressed() {
 		console.log('hold')
-		var temp = piece;
+		// swap();
 	}
 
-
 	function start() {
+		queue = getRandomPieces(5);
+		piece = queue.shift()
+
 		emit('UPDATE', calculateUpdate());
 		//game loop logic
 		intervalId = setInterval(function() {
@@ -104,13 +109,19 @@ module.exports = function(createOptions) {
 				clearInterval(intervalId);
 			}
 			else {
-				//wait for user no input and specified seconds
-				attachPieceToBoard(piece);
-				removeLines();
-				piece = nextPiecesGenerator.getNextPiece();
+				// TODO: wait for user no input and specified seconds before landing piece.
+				onPieceLanded(piece);
 			}
 
 		}, PIECE_DROP_INTERVAL);
+	}
+
+	function onPieceLanded(landingPiece) {
+		attachPieceToBoard(landingPiece);
+		removeLines();
+		piece = queue.shift();
+		queue.push(generateRandomPiece());
+		emit('UPDATE', calculateUpdate());
 	}
 
 	function pause() {
