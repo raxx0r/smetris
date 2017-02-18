@@ -15,21 +15,20 @@ module.exports = function CollisionDetection(createOptions){
 				if (shape[row][col] !== 0) {
 					var y = (piece.y + row);
 					var x = (piece.x + col);
-				
+
 					var isBelowBottom = (y >= board.height());
 					if (isBelowBottom) return false;
 					if (board(x)(y).isOccupied) return false;
 				 }
 			};
 		};
-		return true;		
+		return true;
 	}
 
 	function isBelowBottom(board, piece) {}
 
 	function isOutsideRight(board, piece) {
 		var shape = piece.shape;
-		console.log(piece.x, shape, board.width());
 		return (piece.x + shape.length) > board.width()
 		return true;
 	}
