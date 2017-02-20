@@ -31,6 +31,7 @@ var audio = Audio({game: game, controls:controls});
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
 var nextPiecesController = NextPiecesController({game: game});
+game.on('UPDATE', nextPiecesController.render);
 
 game.start();
 

@@ -8,13 +8,13 @@ module.exports = function (createOptions) {
 	var context;
 	init();
 
-	return {}
+	return {
+		render: render
+	}
 
 	function init() {
 		canvas = document.getElementById('next-pieces');
 		context = canvas.getContext('2d');
-
-		game.on('UPDATE', render);
 	}
 
 	function render(event) {
