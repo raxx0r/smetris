@@ -23,15 +23,15 @@ var mainRenderer = Renderer({
 	canvas: mainCanvas,
 	squareSize: squareSize
 });
-game.on('UPDATE', mainRenderer.render);
 
 var audio = Audio({game: game, controls:controls});
 
 // Controllers
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
-var nextPiecesController = NextPiecesController({game: game});
+var nextPiecesController = NextPiecesController({game: game, fillSquare: mainRenderer.fillSquare});
 game.on('UPDATE', nextPiecesController.render);
+game.on('UPDATE', mainRenderer.render);
 
 game.start();
 

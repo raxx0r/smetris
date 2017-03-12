@@ -14,7 +14,8 @@ module.exports = function Controls(createOptions) {
 	return {
 		init: init,
 		on: addListener,
-		off: removeListener
+		off: removeListener,
+		VALID_EVENTS: VALID_EVENTS
 	}
 
 	function init() {

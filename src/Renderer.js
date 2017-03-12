@@ -71,19 +71,19 @@ module.exports = function Renderer(options) {
 	}
 
 	function renderSquare(i, j, options) {
-		fillSquare(square.width * i, square.height * j, options);
+		fillSquare(context,square.width * i, square.height * j, options);
 	}
 
-	function fillSquare(x, y, options) {
+	function fillSquare(context, x, y, options) {
 		var width = square.width;
 		var height = square.height;
 		context.fillStyle = options.background;
 		context.fillRect(x, y, width, height);
 		
-		if(options.stroke) drawStroke(x,y,options);
+		if(options.stroke) drawStroke(context,x,y,options);
 	}
 
-	function drawStroke(x,y,options) {
+	function drawStroke(context,x,y,options) {
 			var color = colorLuminance(options.background, -0.1);
 			var thickness = options.stroke.thickness || 2.5;
 

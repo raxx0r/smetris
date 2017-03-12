@@ -1,8 +1,9 @@
 var $ = require('jquery');
 var colors = require('./Colors.js');
-
+var renderConfig = require('./rendererConfig');
 module.exports = function (createOptions) {
 	var game = createOptions.game;
+	var fillSquare= createOptions.fillSquare;
 
 	var canvas;
 	var context;
@@ -42,9 +43,10 @@ module.exports = function (createOptions) {
 				var y = (piece.y + tempRow);
 
 				if( piece.shape[row][col] !== 0 ) {
-					context.fillStyle = colors[piece.type];
+					var color = colors[piece.type];
 					var thing = (piece.type == 'I') ? 25 : 50;
-					context.fillRect( x * 18,  y * 18  + step * 50, 15, 15);
+          var conf = {background: color, stroke: renderConfig.piece.stroke};
+          fillSquare(context, x*18, y* 18 + step * 50, conf)
 				}
 
 			};
