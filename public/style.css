@@ -25,3 +25,12 @@
 	display: inline-block;
 }
 
+.right-wrapper {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#hold-piece h1 {
+  margin: 0;
+}
