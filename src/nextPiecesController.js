@@ -39,12 +39,11 @@ module.exports = function (createOptions) {
 
 			for (var col = 0; col < piece.shape[row].length; col++) {
 
-				var x = (piece.x + col);
-				var y = (piece.y + tempRow);
-
+				var x = col;
+				var y = tempRow;
+      
 				if( piece.shape[row][col] !== 0 ) {
 					var color = colors[piece.type];
-					var thing = (piece.type == 'I') ? 25 : 50;
           var conf = {background: color, stroke: renderConfig.piece.stroke};
           fillSquare(context, x*18, y* 18 + step * 50, conf)
 				}
