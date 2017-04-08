@@ -14,7 +14,8 @@ module.exports = function Renderer(options) {
 	return {
 		init: init,
 		render: render,
-		fillSquare: fillSquare
+		fillSquare: fillSquare,
+		renderPiece: renderPiece
 	};
 
 	function init() {
@@ -26,10 +27,11 @@ module.exports = function Renderer(options) {
 		var piece = data.piece;
 		var ghostPiece = data.ghostPiece;
 		var board = data.board;
+
 		//clear();
 		renderBoard(board, config);
-		renderPiece(ghostPiece, config.ghostPiece);
-		renderPiece(piece, Object.assign(config.piece, {background: config.piece.colors[piece.type]}));
+		renderPiece(context, ghostPiece, Object.assign(config.ghostPiece, {square: square}));
+		renderPiece(context, piece, Object.assign(config.piece, {square: square, background: config.piece.colors[piece.type]}));
 	}
 
 	function renderBoard(board, config) {
@@ -39,7 +41,8 @@ module.exports = function Renderer(options) {
 					var pieceType = pieceTypes [ (board(col)(row).value - 1) ];
 					var bg = config.piece.colors[pieceType];
 					config.piece.background = bg;
-					renderSquare(col, row, config.piece);
+					config.piece.square = square;
+					renderSquare(context, col, row, config.piece);
 				}
 				else {
 					var bg;
@@ -51,28 +54,30 @@ module.exports = function Renderer(options) {
 						bg = config.board.background;
 					}
 					config.board.background = bg;
-					renderSquare(col, row, config.board);
+					config.board.square = square;
+					renderSquare(context, col, row, config.board);
 				}
 			};
 		};
 	}
 
-	function renderPiece(piece, config) {
+	function renderPiece(context, piece, config) {
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 				var x = (piece.x + col);
 				var y = (piece.y + row);
 
 				if( piece.shape[row][col] !== 0 ) {
-					renderSquare(x, y, config);
+					renderSquare(context, x, y, config);
 				}
 				
 			};
 		};
 	}
 
-	function renderSquare(i, j, options) {
-		options.square = square;
+	function renderSquare(context, i, j, options) {
+		var square = options.square;
+
 		fillSquare(context,square.width * i, square.height * j, options);
 	}
 
