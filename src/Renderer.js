@@ -8,6 +8,7 @@ module.exports = function Renderer(options) {
 	var canvas;
 	var size;
 	var square = options.squareSize;
+
 	init();
 
 	return {
@@ -71,12 +72,14 @@ module.exports = function Renderer(options) {
 	}
 
 	function renderSquare(i, j, options) {
+
+		options.square = square;
 		fillSquare(context,square.width * i, square.height * j, options);
 	}
 
 	function fillSquare(context, x, y, options) {
-		var width = square.width;
-		var height = square.height;
+		var width = options.square.width;
+		var height = options.square.height;
 		context.fillStyle = options.background;
 		context.fillRect(x, y, width, height);
 		
@@ -84,6 +87,7 @@ module.exports = function Renderer(options) {
 	}
 
 	function drawStroke(context,x,y,options) {
+			var square = options.square;
 			var color = colorLuminance(options.background, -0.1);
 			var thickness = options.stroke.thickness || 2.5;
 

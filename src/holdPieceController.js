@@ -34,7 +34,7 @@ module.exports = function (createOptions) {
 					var color = colors[piece.type];
 					var thing = (piece.type == 'I') ? 25 : 50;
           var conf = {background: color, stroke: renderConfig.piece.stroke};
-          fillSquare(context, 5 + x*18, y*18, conf)
+          fillSquare(context, x * 18, y * 18, conf)
 				}
 
 			};
