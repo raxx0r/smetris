@@ -3,9 +3,11 @@ var renderConfig = require('./rendererConfig');
 var colors = require('./Colors.js');
 module.exports = function (createOptions) {
 
-	var fillSquare= createOptions.fillSquare;
+  var fillSquare = createOptions.fillSquare;
+  var square = createOptions.squareSize;
   var context;
 	init();
+
   return {
     render: render
   }
@@ -17,14 +19,12 @@ module.exports = function (createOptions) {
     context = canvas.getContext('2d')
 	}
 
-
 	function render (event) {
     if (!event.hold) return;
 
     clear();
     var piece = event.hold;
 		for (var row = 0; row < piece.shape.length; row++) {
-
 			for (var col = 0; col < piece.shape[row].length; col++) {
 
 				var x = col;
@@ -33,7 +33,11 @@ module.exports = function (createOptions) {
 				if( piece.shape[row][col] !== 0 ) {
 					var color = colors[piece.type];
 					var thing = (piece.type == 'I') ? 25 : 50;
-          var conf = {background: color, stroke: renderConfig.piece.stroke};
+          var conf = {
+            square: square,
+            background: color,
+            stroke: renderConfig.piece.stroke
+          };
           fillSquare(context, x * 18, y * 18, conf)
 				}
 

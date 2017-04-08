@@ -4,6 +4,7 @@ var renderConfig = require('./rendererConfig');
 module.exports = function (createOptions) {
 	var game = createOptions.game;
 	var fillSquare= createOptions.fillSquare;
+	var square= createOptions.squareSize;
 
 	var canvas;
 	var context;
@@ -44,7 +45,10 @@ module.exports = function (createOptions) {
       
 				if( piece.shape[row][col] !== 0 ) {
 					var color = colors[piece.type];
-          var conf = {background: color, stroke: renderConfig.piece.stroke};
+          var conf = {
+          	square: square,
+          	background: color, stroke: renderConfig.piece.stroke
+          };
           fillSquare(context, x*18, y* 18 + step * 50, conf)
 				}
 

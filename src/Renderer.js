@@ -72,7 +72,6 @@ module.exports = function Renderer(options) {
 	}
 
 	function renderSquare(i, j, options) {
-
 		options.square = square;
 		fillSquare(context,square.width * i, square.height * j, options);
 	}
