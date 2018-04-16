@@ -11,8 +11,10 @@ var NextPiecesController = require('./nextPiecesController.js');
 var HoldPieceController = require('./holdPieceController.js');
 var MuteController = require('./MuteController.js');
 var utils = require('./utils.js');
+var helpers = require('./helpers.js');
 
 
+var colors = config.randomize_piece_color ? helpers.randomColors() : require('./Colors');
 var board = Board();
 var controls = Controls({config: config});
 controls.init();
@@ -22,18 +24,18 @@ game = Game({board: board, controls: controls, config: config});
 var mainCanvas = document.getElementById('game-canvas');
 var squareSize = utils.calculateSquareSizeForBoard(mainCanvas, board);
 var mainRenderer = Renderer({
+	colors: colors,
 	canvas: mainCanvas,
 	squareSize: squareSize
 });
-
 var audio = Audio({game: game, controls:controls, muted: config.muted_default});
 
 // Controllers
 var muteController = MuteController({audio: audio});
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
-var nextPiecesController = NextPiecesController({game: game, fillSquare: mainRenderer.fillSquare, squareSize: squareSize});
-var holdPieceController = HoldPieceController({squareSize: squareSize, fillSquare: mainRenderer.fillSquare});
+var nextPiecesController = NextPiecesController({game: game, colors: colors, fillSquare: mainRenderer.fillSquare, squareSize: squareSize});
+var holdPieceController = HoldPieceController({squareSize: squareSize, colors: colors, fillSquare: mainRenderer.fillSquare});
 game.on('UPDATE', nextPiecesController.render);
 game.on('UPDATE', mainRenderer.render);
 game.on('UPDATE', holdPieceController.render);

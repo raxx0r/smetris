@@ -3,5 +3,6 @@ module.exports = {
 	controls: {
 		REPEAT_COOLDOWN: 15
 	},
-	muted_default: false
+	muted_default: true,
+	randomize_piece_color: true
 }

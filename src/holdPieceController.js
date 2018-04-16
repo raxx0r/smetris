@@ -1,10 +1,11 @@
 var $ = require('jquery');
 var renderConfig = require('./rendererConfig');
-var colors = require('./Colors.js');
+
 module.exports = function (createOptions) {
 
   var fillSquare = createOptions.fillSquare;
   var square = createOptions.squareSize;
+  var colors = createOptions.colors;
   var context;
 	init();
 

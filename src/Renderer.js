@@ -8,6 +8,7 @@ module.exports = function Renderer(options) {
 	var canvas;
 	var size;
 	var square = options.squareSize;
+	var colors = options.colors;
 
 	init();
 
@@ -31,7 +32,7 @@ module.exports = function Renderer(options) {
 		//clear();
 		renderBoard(board, config);
 		renderPiece(context, ghostPiece, Object.assign(config.ghostPiece, {square: square}));
-		renderPiece(context, piece, Object.assign(config.piece, {square: square, background: config.piece.colors[piece.type]}));
+		renderPiece(context, piece, Object.assign(config.piece, {square: square, background: colors[piece.type]}));
 	}
 
 	function renderBoard(board, config) {
@@ -39,7 +40,7 @@ module.exports = function Renderer(options) {
 			for (var col = 0; col < board.width(); col++) {
 				if (board(col)(row).isOccupied) {
 					var pieceType = pieceTypes [ (board(col)(row).value - 1) ];
-					var bg = config.piece.colors[pieceType];
+					var bg = colors[pieceType];
 					config.piece.background = bg;
 					config.piece.square = square;
 					renderSquare(context, col, row, config.piece);

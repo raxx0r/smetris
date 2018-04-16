@@ -1,4 +1,3 @@
-var pieceColors = require('./colors')
 
 module.exports = {
 	board: {
@@ -13,8 +12,7 @@ module.exports = {
 	piece: {
 		stroke: {
 			thickness: 3.5,
-		},
-		colors: pieceColors,
+		}
 	},
 	ghostPiece: { 
 		background: 'rgba(100, 100, 100, 0.6)', 

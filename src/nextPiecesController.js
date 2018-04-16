@@ -1,10 +1,10 @@
 var $ = require('jquery');
-var colors = require('./Colors.js');
 var renderConfig = require('./rendererConfig');
 module.exports = function (createOptions) {
 	var game = createOptions.game;
 	var fillSquare= createOptions.fillSquare;
 	var square= createOptions.squareSize;
+	var colors= createOptions.colors
 
 	var canvas;
 	var context;

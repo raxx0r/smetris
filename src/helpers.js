@@ -18,6 +18,36 @@ function colorLuminance(hex, lum) {
 	return rgb;
 }
 
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
+
+function randomColors() {
+	function randomColor() {
+		var r = Math.round(Math.random() * 255)
+		var g = Math.round(Math.random() * 255)
+		var b = Math.round(Math.random() * 255)
+
+		var res = `rgba(${r}, ${g}, ${b}, 0)`;
+		return rgb2hex(res)
+	}
+	return {
+		'I': randomColor(),
+		'J': randomColor(),
+		'L': randomColor(),
+		'O': randomColor(),
+		'S': randomColor(),
+		'T': randomColor(),
+		'Z': randomColor()
+	}
+}
+
 module.exports = {
+	rgb2hex: rgb2hex,
+	randomColors: randomColors,
 	colorLuminance: colorLuminance
 }
