@@ -15,7 +15,7 @@ module.exports = function (createOptions) {
 	}
 
 	function init() {
-		canvas = document.getElementById('next-pieces');
+		canvas = document.getElementById('next-pieces-canvas');
 		context = canvas.getContext('2d');
 	}
 
@@ -49,7 +49,7 @@ module.exports = function (createOptions) {
           	square: square,
           	background: color, stroke: renderConfig.piece.stroke
           };
-          fillSquare(context, x*18, y* 18 + step * 50, conf)
+          fillSquare(context, 20 + x*18, y* 18 + step * 50, conf)
 				}
 
 			};

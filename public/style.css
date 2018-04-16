@@ -31,6 +31,15 @@
   vertical-align: top;
 }
 
-#hold-piece h1 {
-  margin: 0;
+#hold-piece {
+	border: 1px solid #ddd;
+	width: 100px;
+}
+
+#next-pieces {
+	border: 1px solid #ddd;	
+	width: 100px;
+	margin-top: -1px;
+	border-top: 0px;
+
 }

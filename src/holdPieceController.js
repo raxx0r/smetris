@@ -1,5 +1,6 @@
 var $ = require('jquery');
 var renderConfig = require('./rendererConfig');
+var Piece = require('./Piece');
 
 module.exports = function (createOptions) {
 
@@ -7,6 +8,38 @@ module.exports = function (createOptions) {
   var square = createOptions.squareSize;
   var colors = createOptions.colors;
   var context;
+  var offsets = {
+  	'I': {
+  		x: 12.5,
+  		y: 20
+  	},
+  	'Z': {
+  		x: 20,
+  		y: 30
+  	},
+  	'S': {
+  		x: 20,
+  		y: 30
+  	},
+  	'L': {
+  		x: 20,
+  		y: 20
+  	},
+  	'J': {
+  		x: 20,
+  		y: 20
+  	},
+  	'T': {
+  		x: 20,
+  		y: 30
+  	},
+  	'O': {
+  		x: 30,
+  		y: 30
+  	}
+  }
+  var offsetX = 30; // I
+	var offsetY = 30; // I
 	init();
 
   return {
@@ -24,7 +57,7 @@ module.exports = function (createOptions) {
     if (!event.hold) return;
 
     clear();
-    var piece = event.hold;
+    var piece = new Piece({type: event.hold.type});
 		for (var row = 0; row < piece.shape.length; row++) {
 			for (var col = 0; col < piece.shape[row].length; col++) {
 
@@ -39,7 +72,7 @@ module.exports = function (createOptions) {
             background: color,
             stroke: renderConfig.piece.stroke
           };
-          fillSquare(context, x * 18, y * 18, conf)
+          fillSquare(context, offsets[piece.type].x + x * 18, offsets[piece.type].y + y * 18, conf)
 				}
 
 			};
