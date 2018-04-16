@@ -26,7 +26,7 @@ var mainRenderer = Renderer({
 	squareSize: squareSize
 });
 
-var audio = Audio({game: game, controls:controls});
+var audio = Audio({game: game, controls:controls, muted: config.muted_default});
 
 // Controllers
 var muteController = MuteController({audio: audio});

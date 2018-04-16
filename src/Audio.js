@@ -1,7 +1,7 @@
 module.exports = function (options) {
 	var controls = options.controls;
 	var game = options.game;
-	var mute = false;
+	var mute = options.muted != undefined ? options.muted : false;
 
 	var sounds = {
 		HITS_BOTTOM: 'block_hits_bottom.wav',
