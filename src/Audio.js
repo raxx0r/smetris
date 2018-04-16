@@ -1,6 +1,7 @@
 module.exports = function (options) {
 	var controls = options.controls;
 	var game = options.game;
+	var mute = false;
 
 	var sounds = {
 		HITS_BOTTOM: 'block_hits_bottom.wav',
@@ -12,8 +13,23 @@ module.exports = function (options) {
 	// game.on('gameOver', play(sounds.GAME_OVER));
 
 	function play(sound) {
+
 		return function () {
+			if (mute) return;
 			new Audio('assets/sounds/' + sound).play();
 		}
+	}
+
+	function toggle(_mute) {
+		mute = _mute;
+	}
+
+	function isMuted() {
+		return mute;
+	}
+
+	return {
+		toggle: toggle,
+		isMuted: isMuted
 	}
 }

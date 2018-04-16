@@ -9,6 +9,7 @@ var Board = require('./Board.js');
 var config = require('./config.js');
 var NextPiecesController = require('./nextPiecesController.js');
 var HoldPieceController = require('./holdPieceController.js');
+var MuteController = require('./MuteController.js');
 var utils = require('./utils.js');
 
 
@@ -28,6 +29,7 @@ var mainRenderer = Renderer({
 var audio = Audio({game: game, controls:controls});
 
 // Controllers
+var muteController = MuteController({audio: audio});
 var scoreController = ScoreController({game: game, config: config});
 var highscoreController = HighscoreController();
 var nextPiecesController = NextPiecesController({game: game, fillSquare: mainRenderer.fillSquare, squareSize: squareSize});
