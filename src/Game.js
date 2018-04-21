@@ -6,18 +6,19 @@ var generateRandomPiece = require('./nextPiecesHelpers.js').generateRandomPiece;
 
 var pieceTypes = require('./PieceTypesArray.js');
 
-var PIECE_DROP_INTERVAL = 1000;
+
 var EVENTS = ['LINES_CLEARED', 'UPDATE', 'GAME_OVER'];
 
 module.exports = function(createOptions) {
 
 	var config = createOptions.config;
+	var PIECE_DROP_INTERVAL = config.piece_drop_interval;
 	var nextPiecesGenerator = createOptions.nextPiecesGenerator;
 	var points = config.pointsPerLinesCleared;
 	var board = createOptions.board;
 	var controls = createOptions.controls;
 	var score = 0;
-	var intervalId;
+	var pause = false;
 	var queue;
 	var piece;
 	var hold;
@@ -106,9 +107,11 @@ module.exports = function(createOptions) {
 		queue = getRandomPieces(5);
 		piece = queue.shift()
 
-		emit('UPDATE', calculateUpdate());
+		emit('UPDATE', calculateUpdate()); // initial
 		//game loop logic
-		intervalId = setInterval(function() {
+		var intervalId = setInterval(function() {
+			if (pause) return;
+
 			emit('UPDATE', calculateUpdate());
 
 			var canGoDown = check(piece.clone().goDown());
@@ -136,8 +139,12 @@ module.exports = function(createOptions) {
 		emit('UPDATE', calculateUpdate());
 	}
 
-	function pause() {
-		clearInterval(intervalId);
+	function pauseToggle() {
+		pause = !pause;
+	}
+
+	function isPaused() {
+		return pause;
 	}
 
 	function init() {
@@ -224,6 +231,7 @@ module.exports = function(createOptions) {
 	return {
 		on: addListener,
 		start: start,
-		pause: pause
+		pauseToggle: pauseToggle,
+		isPaused: isPaused
 	}
 }

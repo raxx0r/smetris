@@ -1,7 +1,9 @@
 var keys = require('./keys.js');
 var Piece = require('./Piece.js');
 
-var VALID_EVENTS = ['down','right','left','drop','hold','rotate'];
+var VALID_EVENTS = ['down','right','left','drop','hold','rotate', 'pauseToggle'];
+
+var DEBUG = false;
 
 module.exports = function Controls(createOptions) {
 	var createOptions = createOptions || {};
@@ -55,6 +57,7 @@ module.exports = function Controls(createOptions) {
 	}
 
 	function keyPressed(e) {
+		if (DEBUG) console.log(e.keyCode)
 		if(!isKeyReady()) return;
 
 		if (e.keyCode === keys.RIGHT) emit('right');
@@ -62,6 +65,7 @@ module.exports = function Controls(createOptions) {
 		if (e.keyCode === keys.DOWN) emit('down');
 		if (e.keyCode === keys.SPACE) emit('drop');
 		if (e.keyCode === keys.SHIFT) emit('hold');
+		if (e.keyCode === keys.P) emit('pauseToggle');
 		if (e.keyCode === keys.UP && !isRotatePressed) {
 			emit('rotate');
 			isRotatePressed = true;

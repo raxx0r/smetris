@@ -3,6 +3,7 @@ module.exports = {
 	controls: {
 		REPEAT_COOLDOWN: 15
 	},
+	piece_drop_interval: 800,
 	muted_default: true,
 	randomize_piece_color: true
 }

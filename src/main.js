@@ -42,6 +42,17 @@ game.on('UPDATE', holdPieceController.render);
 
 game.start();
 
+
+controls.on('pauseToggle', function() {
+	game.pauseToggle();
+
+	if (game.isPaused()) {
+		console.log('pausing')
+	} else {
+		console.log('unpausing')
+	}
+})
+
 game.on('GAME_OVER', function (event){
 	var newScore = event.score;
 
