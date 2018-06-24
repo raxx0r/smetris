@@ -2,6 +2,7 @@ $ = require('jquery');
 var Audio = require('./Audio.js');
 var Game = require('./Game.js');
 var Controls = require('./Controls.js');
+var MultipleControls = require('./MultipleControls.js');
 var ScoreController = require('./ScoreController.js');
 var HighscoreController = require('./HighscoreController.js');
 var Renderer = require('./Renderer.js');
@@ -13,10 +14,16 @@ var MuteController = require('./MuteController.js');
 var utils = require('./utils.js');
 var helpers = require('./helpers.js');
 
+var RemoteControls = require('./RemoteControls.js');
+
 
 var colors = config.randomize_piece_color ? helpers.randomColors() : require('./Colors');
 var board = Board();
-var controls = Controls({config: config});
+var localControls = Controls({config: config});
+var remoteControls = RemoteControls({});
+localControls.init();
+remoteControls.init();
+var controls = MultipleControls({controls: [localControls, remoteControls]})
 controls.init();
 
 game = Game({board: board, controls: controls, config: config});

@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var express = require('express');
+var path = require('path')
 // var sourcemaps = require('gulp-sourcemaps');
 
 var app;
@@ -45,7 +46,8 @@ function buildTests(options) {
 
 function startServer() {
 	app = express();
-	app.use(express.static('public'));
+	app.use('/', express.static('public'));
+	app.use('/controls', express.static('public_controls'));
 	app.listen(2000);
 }
 
