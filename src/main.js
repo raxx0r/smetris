@@ -7,6 +7,7 @@ var ScoreController = require('./ScoreController.js');
 var HighscoreController = require('./HighscoreController.js');
 var Renderer = require('./Renderer.js');
 var Board = require('./Board.js');
+var RecordPlayer = require('./RecordPlayer.js');
 var config = require('./config.js');
 var NextPiecesController = require('./nextPiecesController.js');
 var HoldPieceController = require('./holdPieceController.js');
@@ -47,6 +48,13 @@ game.on('UPDATE', nextPiecesController.render);
 game.on('UPDATE', mainRenderer.render);
 game.on('UPDATE', holdPieceController.render);
 
+var history = []
+var start = new Date().getTime()
+game.on('UPDATE', function (obj) {
+	var time = new Date().getTime() - start;
+	history.push({time: time, data: obj})
+});
+
 game.start();
 
 
@@ -59,7 +67,7 @@ controls.on('pauseToggle', function() {
 		console.log('unpausing')
 	}
 })
-
+mainRenderer.clear()
 game.on('GAME_OVER', function (event){
 	var newScore = event.score;
 
@@ -67,6 +75,11 @@ game.on('GAME_OVER', function (event){
 	if (newScore > highscore) {
 		localStorage.setItem("highscore", newScore);
 	}
+
+	mainRenderer.clear();
+
+	RecordPlayer({renderer: mainRenderer, history: history}).play();
+
 });
 
 game.on('GAME_OVER', function (){

@@ -1,4 +1,6 @@
-module.exports = function (createOptions) {
+var deepClone = require('./helpers.js').deepClone;
+
+module.exports = function Board(createOptions) {
 
 	createOptions = createOptions || {};
 
@@ -9,6 +11,7 @@ module.exports = function (createOptions) {
 	board.height = height;
 	board.row = row;
 	board.clearRow = clearRow;
+	board.clone = clone;
 
 	function row(row) {return boardScheme[row];}
 	function width() {return boardScheme[0].length;}
@@ -37,6 +40,11 @@ module.exports = function (createOptions) {
 				value: value(x,y)
 			}
 		};
+	}
+
+	function clone() {
+			cBoardScheme = deepClone(boardScheme)
+			return Board({boardScheme: cBoardScheme})
 	}
 
 	function value(x, y) { return boardScheme[y][x];}

@@ -1,9 +1,8 @@
 var Piece = require('./Piece.js');
 var CollisionDetection = require('./CollisionDetection.js');
-var Renderer = require('./Renderer.js');
 var getRandomPieces = require('./nextPiecesHelpers.js').getRandomPieces;
 var generateRandomPiece = require('./nextPiecesHelpers.js').generateRandomPiece;
-
+var clone = require('./helpers.js').clone;
 var pieceTypes = require('./PieceTypesArray.js');
 
 
@@ -36,9 +35,9 @@ module.exports = function(createOptions) {
 
 	function calculateUpdate() {
 		return {
-			piece: piece,
-			ghostPiece: calculateGhostPiece(),
-			board: board,
+			piece: piece.clone(),
+			ghostPiece: calculateGhostPiece().clone(),
+			board: board.clone(),
 			queue: queue,
 			hold: hold
 		}

@@ -16,7 +16,8 @@ module.exports = function Renderer(options) {
 		init: init,
 		render: render,
 		fillSquare: fillSquare,
-		renderPiece: renderPiece
+		renderPiece: renderPiece,
+		clear: clear
 	};
 
 	function init() {
@@ -29,7 +30,7 @@ module.exports = function Renderer(options) {
 		var ghostPiece = data.ghostPiece;
 		var board = data.board;
 
-		//clear();
+		clear();
 		renderBoard(board, config);
 		renderPiece(context, ghostPiece, Object.assign(config.ghostPiece, {square: square}));
 		renderPiece(context, piece, Object.assign(config.piece, {square: square, background: colors[piece.type]}));
