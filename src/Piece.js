@@ -31,6 +31,15 @@ Piece.prototype.rotate = function() {
 	return this;
 }
 
+Piece.prototype.fromJSON = function(o) {
+	return Piece({
+		type: o.type,
+		x: o.x,
+		y: o.y, 
+		shape: o.shape
+	})
+}
+
 Piece.prototype.log = function() {
 	logShape(this.shape)
 }

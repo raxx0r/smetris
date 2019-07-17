@@ -26,15 +26,16 @@ function rgb2hex(rgb){
   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
-function randomColors() {
-	function randomColor() {
-		var r = Math.round(Math.random() * 255)
-		var g = Math.round(Math.random() * 255)
-		var b = Math.round(Math.random() * 255)
+function randomColor() {
+	var r = Math.round(Math.random() * 255)
+	var g = Math.round(Math.random() * 255)
+	var b = Math.round(Math.random() * 255)
 
-		var res = `rgba(${r}, ${g}, ${b}, 0)`;
-		return rgb2hex(res)
-	}
+	var res = `rgba(${r}, ${g}, ${b}, 0)`;
+	return rgb2hex(res)
+}
+
+function randomColors() {
 	return {
 		'I': randomColor(),
 		'J': randomColor(),
@@ -80,9 +81,16 @@ function clone(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
+function clear(canvas, context) {
+	context.beginPath();
+	context.clearRect ( 0 , 0 , canvas.width, canvas.height );
+}
+
 module.exports = {
 	deepClone: clone,
 	rgb2hex: rgb2hex,
 	randomColors: randomColors,
+	randomColor: randomColor,
+	clear: clear,
 	colorLuminance: colorLuminance
 }

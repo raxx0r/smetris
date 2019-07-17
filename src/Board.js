@@ -12,6 +12,13 @@ module.exports = function Board(createOptions) {
 	board.row = row;
 	board.clearRow = clearRow;
 	board.clone = clone;
+	board.toJSON = function() {
+		return {
+			width: width(),
+			height: height(),
+			grid: boardScheme
+		}
+	}
 
 	function row(row) {return boardScheme[row];}
 	function width() {return boardScheme[0].length;}

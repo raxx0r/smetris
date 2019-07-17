@@ -4,6 +4,7 @@ var CollisionDetection = require('../src/CollisionDetection.js');
 
 describe('CollisionDetection', function(){
 
+	it('when a piece is outside of board should return SOMETHINGse', function() {})
 	it('when a piece is outside of board should return false', function() {
 		var board = function() {
 			return function() {

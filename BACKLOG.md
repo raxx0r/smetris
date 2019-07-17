@@ -1,6 +1,9 @@
 
 Implementera att spelet tar slut
 
+Top 10 highscore. + kolla om något är buggigt
+Klicka för att replay ska visas
+En klocka
 
 config
 - tick interval
@@ -36,5 +39,6 @@ SHIFT for hold a piece.
 Show upcoming pieces, 1 or more?
 Remove floating pieces
 
-TECH Improvements
-Rendrera bara när något ändras.
+Ta reda på var bitar hamnar på för position i början när spelet startar.
+Ta reda på vart "holdade" bitar hamnar på för position.
+Ta reda på hur "känslan" är när roterar eller trycker på en knapp.
